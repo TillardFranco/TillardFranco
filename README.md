@@ -84,18 +84,47 @@ const franco = {
 ## 📊 GitHub Stats
 
 <div align="center">
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=TillardFranco&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=667eea&icon_color=764ba2&text_color=c9d1d9&ring_color=667eea" alt="GitHub Stats" />
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=TillardFranco&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=667eea&text_color=c9d1d9" alt="Top Languages" />
-</div>
 
-<div align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=TillardFranco&theme=tokyonight&hide_border=true&background=0D1117&ring=667eea&fire=764ba2&currStreakLabel=667eea" alt="GitHub Streak" />
+<!-- GitHub Profile Summary Cards - Alternativa más confiable -->
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=TillardFranco&theme=tokyonight" alt="GitHub Profile Details" />
+<br/>
+
+<!-- Estadísticas con GitHub Profile Summary Cards -->
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=TillardFranco&theme=tokyonight" alt="Repos per Language" />
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=TillardFranco&theme=tokyonight" alt="Most Commit Language" />
+<br/>
+
+<!-- Estadísticas adicionales -->
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=TillardFranco&theme=tokyonight" alt="GitHub Stats" />
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=TillardFranco&theme=tokyonight&utcOffset=-3" alt="Productive Time" />
+
 </div>
 
 <br/>
 
 <div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=TillardFranco&bg_color=0D1117&color=667eea&line=764ba2&point=ffffff&area=true&hide_border=true" width="100%" alt="GitHub Activity Graph" />
+
+<!-- GitHub Profile Trophy - Trofeos de logros -->
+<img src="https://github-profile-trophy.vercel.app/?username=TillardFranco&theme=tokyonight&no-frame=true&no-bg=true&margin-w=4&margin-h=4&column=7" alt="GitHub Trophies" />
+
+</div>
+
+<br/>
+
+<div align="center">
+
+<!-- Racha de Contribuciones - Versión alternativa -->
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=TillardFranco&theme=tokyonight&hide_border=true&date_format=M%20j%5B%2C%20Y%5D" alt="GitHub Streak" />
+
+</div>
+
+<br/>
+
+<div align="center">
+
+<!-- Gráfico de Actividad - Versión alternativa con diferentes colores -->
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=TillardFranco&theme=github-compact&hide_border=true&bg_color=0D1117&color=667eea&line=764ba2&point=ffffff&area=true" width="100%" alt="GitHub Activity Graph" />
+
 </div>
 
 ---
