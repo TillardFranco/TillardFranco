@@ -12,26 +12,71 @@
 
 ## 👨‍💻 About me
 
-```javascript
-const franco = {
-  location: "Córdoba, Argentina 🇦🇷",
-  role: "FullStack Developer",
-  education: "Ingeniería en Desarrollo de Software @ Universidad Siglo XXI",
-  currentlyWorking: [
-    "Plataforma de Análisis Inmobiliario",
-    "Sistema de Gestión de Farmacias",
-  ],
-  funFact: "Autodidacta que convierte ideas en productos reales 🚀",
-};
-```
+I am a software engineering student in my final year at Universidad Siglo XXI. I am expanding my knowledge in both front-end and back-end development, and I co-founded a software development venture with two partners where we build real-world solutions for clients. I love to learn and build something new, productive, innovative and creative.
 
-> 🎯 **Desarrollador FullStack autodidacta** con un portafolio robusto de soluciones web en producción para clientes reales.
->
-> 💡 Lideré el desarrollo de **Aires del Lago** (React + Vite) y actualmente dirijo proyectos innovadores: una **plataforma de análisis inmobiliario** y un **sistema de gestión de farmacias**.
->
-> 🏗️ Comprometido con la **arquitectura limpia** y la creación de productos que resuelven problemas reales. Busco un equipo donde crecer y generar valor desde el primer día.
+🌱 **I'm currently learning ...**
+
+- Java
+- Spring Boot
+
+👯 **I'm looking forward to collaborate on open source projects.**
+
+✔ **Ask me about anything, I am happy to help**
+
+📫 **Reach out to me at:** tillardtomasfranco@gmail.com
 
 ---
+
+## My Skills Include
+
+<h4> Frontend </h4>
+
+<span>
+
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white">
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
+ 
+
+
+</span>
+
+<h4> Backend </h4>
+
+<span>
+
+  <img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white">
+  <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
+
+</span>
+
+<h4> Database </h4>
+
+<span>
+
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+
+</span>
+
+<h4> Other Tools and Technologies </h4>
+
+<span>
+
+  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white">
+  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white">
+  <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+
+
+
+
+</span>
+
 
 ## 🛠️ Tech Stack
 
