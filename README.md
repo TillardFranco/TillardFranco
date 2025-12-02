@@ -1,11 +1,11 @@
 <div align="center">
 
 <!-- BANNER HEADER -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=200&section=header&text=Franco%20Tillard&fontSize=50&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=FullStack%20Developer%20|%20Building%20Real%20Solutions&descAlignY=55&descAlign=50" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=170&section=header&text=Franco%20Tillard&fontSize=40&fontColor=ffffff&animation=fadeIn&fontAlignY=28&desc=Backend%20Developer%20|%20Building%20Real%20Solutions&descAlignY=48&descAlign=50" width="100%"/>
 
 <!-- TYPING SVG -->
 <a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=22&pause=1000&color=667EEA&center=true&vCenter=true&random=false&width=600&lines=FullStack+Developer+%F0%9F%92%BB;React+%2B+Java+Spring+Boot+Expert;Building+Web+Solutions+That+Matter;Clean+Architecture+Enthusiast;Always+Learning%2C+Always+Growing+%F0%9F%9A%80" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=22&pause=1000&color=667EEA&center=true&vCenter=true&random=false&width=600&lines=Backend+Developer+%F0%9F%92%BB;React+%2B+Java+Spring+Boot;Building+Web+Solutions+That+Matter;Clean+Architecture+Enthusiast;Always+Learning%2C+Always+Growing+%F0%9F%9A%80" alt="Typing SVG" />
 </a>
 
 <br/>
