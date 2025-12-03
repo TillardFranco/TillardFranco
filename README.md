@@ -28,8 +28,6 @@ Currently, I co-lead **Dev.Bit**, a software development venture where we transf
 
 **📫 Reach out to me at:** tillardtomasfranco@gmail.com
 
----
-
 <div align="center">
 
 <a href="https://linkedin.com/in/tillardfrancotomas">
