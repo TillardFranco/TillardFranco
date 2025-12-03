@@ -56,17 +56,17 @@ Currently, I co-lead **Dev.Bit**, a software development venture where we transf
 
 <h4> Other Tools and Technologies </h4>
 
-<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white">
 
 ## 🚀 Featured Projects
 
 <div align="center">
 
-| Project                   | Description                                                                                                                 | Tech Stack                                  | Link                                                 |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------- |
-| **Aires del Lago**        | Cabin promotion website with responsive design and load time <1.5s                                                          | `React` `Vite`                              | 🔗[View site](https://airesdellagolosmolinos.com.ar) |
-| **ERP Management System** | Management software with roles, stock control,                                                                              | `Java Spring Boot` `MySQL`                  | 🔨 In development                                    |
-| **Farmaser**              | Pharmacy ecommerce with stock management, sales, customer management, Mercado Pago integration, product updates and catalog | `React` `Vite` `Java` `Spring Boot` `MySQL` | 🔨 In development                                    |
+| Project                   | Description                                                                                                                 | Tech Stack                                  | Link                                               |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | -------------------------------------------------- |
+| **Aires del Lago**        | Cabin promotion website with responsive design and load time <1.5s                                                          | `React` `Vite`                              | [View site](https://airesdellagolosmolinos.com.ar) |
+| **ERP Management System** | Management software with roles, stock control,                                                                              | `Java Spring Boot` `MySQL`                  | 🔨 In development                                  |
+| **Farmaser**              | Pharmacy ecommerce with stock management, sales, customer management, Mercado Pago integration, product updates and catalog | `React` `Vite` `Java` `Spring Boot` `MySQL` | 🔨 In development                                  |
 
 </div>
 
