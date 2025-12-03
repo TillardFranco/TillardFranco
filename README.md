@@ -12,18 +12,19 @@
 
 ## 👨‍💻 About me
 
-I am a software engineering student in my final year at Universidad Siglo XXI. I am expanding my knowledge in both front-end and back-end development, and I co-founded a software development venture with two partners where we build real-world solutions for clients. I love to learn and build something new, productive, innovative and creative.
+I am a **Software Engineering Student** in my final year at Universidad Siglo 21 and a **Full Stack Developer** passionate about building scalable solutions.
 
-🌱 **I'm currently learning ...**
+Currently, I co-lead **Dev.Bit**, a software development venture where we transform client needs into robust production-ready applications. My focus is on **Clean Architecture**, **System Design**, and delivering real value through code.
 
-- Java
-- Spring Boot
+**🔭 Current Focus:**
+- Architecting a **Pharmacy E-Commerce** using Java Spring Boot & React to digitize local business operations.
+- Deepening my expertise in **Microservices** and **Backend Performance**.
 
-👯 **I'm looking forward to collaborate on open source projects.**
+**🤝 Open to:**
+- Collaboration on Open Source projects.
+- Technical discussions about Software Architecture and Scalability.
 
-✔ **Ask me about anything, I am happy to help**
-
-📫 **Reach out to me at:** tillardtomasfranco@gmail.com
+**📫 Reach out to me at:** tillardtomasfranco@gmail.com
 
 
 ## 🛠️ Tech Stack
@@ -45,7 +46,7 @@ I am a software engineering student in my final year at Universidad Siglo XXI. I
 
 <!-- TYPING SVG -->
 <a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=15&pause=1000&color=667EEA&center=true&vCenter=true&random=false&width=600&lines=Backend+Developer+%F0%9F%92%BB;React+%2B+Java+Spring+Boot;Building+Web+Solutions+That+Matter;Clean+Architecture+Enthusiast;Always+Learning%2C+Always+Growing+%F0%9F%9A%80" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=20&pause=1000&color=667EEA&center=true&vCenter=true&random=false&width=600&lines=Backend+Developer+%F0%9F%92%BB;React+%2B+Java+Spring+Boot;Building+Web+Solutions+That+Matter;Clean+Architecture+Enthusiast;Always+Learning%2C+Always+Growing+%F0%9F%9A%80" alt="Typing SVG" />
 </a>
 
 ## 🚀 Proyectos Destacados
