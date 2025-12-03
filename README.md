@@ -28,14 +28,18 @@ Currently, I co-lead **Dev.Bit**, a software development venture where we transf
 
 **📫 Reach out to me at:** tillardtomasfranco@gmail.com
 
+</br>
+
 <div align="center">
 
 <a href="https://linkedin.com/in/tillardfrancotomas">
   <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/>
 </a>
+&nbsp;&nbsp;
 <a href="mailto:tillardtomasfranco@gmail.com">
   <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
 </a>
+&nbsp;&nbsp;
 <a href="https://airesdellagolosmolinos.com.ar">
   <img src="https://img.shields.io/badge/Portfolio_Web-667eea?style=for-the-badge&logo=google-chrome&logoColor=white"/>
 </a>
