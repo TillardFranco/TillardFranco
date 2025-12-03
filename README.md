@@ -1,7 +1,12 @@
 <div align="center">
 
 <!-- BANNER HEADER -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=120&section=header&text=Hi%2C%20I%27m%20Franco%20Tillard&fontSize=32&fontColor=ffffff&animation=fadeIn&fontAlignY=28&desc=Backend%20Developer%20%20&descAlignY=48&descAlign=50" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=100&section=header" width="100%"/>
+
+<!-- TYPING SVG -->
+<a href="https://git.io/typing-svg">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=15&pause=1000&color=667EEA&center=true&vCenter=true&random=false&width=600&lines=Hi%2C+I'm+Franco+Tillard;Backend+Developer+Focus" alt="Typing SVG" />
+</a>
 
 </div>
 
@@ -19,11 +24,6 @@ I am a software engineering student in my final year at Universidad Siglo XXI. I
 ✔ **Ask me about anything, I am happy to help**
 
 📫 **Reach out to me at:** tillardtomasfranco@gmail.com
-
-<!-- TYPING SVG -->
-<a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=22&pause=1000&color=667EEA&center=true&vCenter=true&random=false&width=600&lines=Backend+Developer+%F0%9F%92%BB;React+%2B+Java+Spring+Boot;Building+Web+Solutions+That+Matter;Clean+Architecture+Enthusiast;Always+Learning%2C+Always+Growing+%F0%9F%9A%80" alt="Typing SVG" />
-</a>
 
 
 ## 🛠️ Tech Stack
@@ -56,6 +56,11 @@ I am a software engineering student in my final year at Universidad Siglo XXI. I
 
                               
 </br>
+
+<!-- TYPING SVG -->
+<a href="https://git.io/typing-svg">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=15&pause=1000&color=667EEA&center=true&vCenter=true&random=false&width=600&lines=Backend+Developer+%F0%9F%92%BB;React+%2B+Java+Spring+Boot;Building+Web+Solutions+That+Matter;Clean+Architecture+Enthusiast;Always+Learning%2C+Always+Growing+%F0%9F%9A%80" alt="Typing SVG" />
+</a>
 
 ## 🚀 Proyectos Destacados
 
