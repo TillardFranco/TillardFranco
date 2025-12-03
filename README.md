@@ -28,6 +28,22 @@ Currently, I co-lead **Dev.Bit**, a software development venture where we transf
 
 **📫 Reach out to me at:** tillardtomasfranco@gmail.com
 
+---
+
+<div align="center">
+
+<a href="https://linkedin.com/in/tillardfrancotomas">
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/>
+</a>
+<a href="mailto:tillardtomasfranco@gmail.com">
+  <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
+</a>
+<a href="https://airesdellagolosmolinos.com.ar">
+  <img src="https://img.shields.io/badge/Portfolio_Web-667eea?style=for-the-badge&logo=google-chrome&logoColor=white"/>
+</a>
+
+</div>
+
 ## 🛠️ Tech Stack
 
 <h4> Frontend </h4>
@@ -46,29 +62,13 @@ Currently, I co-lead **Dev.Bit**, a software development venture where we transf
 
 <div align="center">
 
-| Proyecto                      | Descripción                                                                                                                   | Tech Stack                                  | Link                                                  |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ----------------------------------------------------- |
-| 🏠 **Aires del Lago**         | Sitio web de promoción de cabañas con diseño responsivo y tiempo de carga <1.5s                                               | `React` `Vite`                              | [🔗 Ver sitio](https://airesdellagolosmolinos.com.ar) |
-| 💊 **Sistema de Gestion ERP** | Software de gestión con roles, control de stock,                                                                              | `Java Spring Boot` `MySQL`                  | 🔨 En desarrollo                                      |
-| 💊 **Farmaser**               | Ecommerce de farmacia con gestión de stock, ventas, clientes, integración Mercado Pago, actualización de productos y catálogo | `React` `Vite` `Java` `Spring Boot` `MySQL` | 🔨 En desarrollo                                      |
+| Proyecto                      | Descripción                                                                                                                   | Tech Stack                                  | Link                                                 |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------- |
+| 🏠 **Aires del Lago**         | Sitio web de promoción de cabañas con diseño responsivo y tiempo de carga <1.5s                                               | `React` `Vite`                              | 🔗[Ver sitio](https://airesdellagolosmolinos.com.ar) |
+| 💊 **Sistema de Gestion ERP** | Software de gestión con roles, control de stock,                                                                              | `Java Spring Boot` `MySQL`                  | 🔨 En desarrollo                                     |
+| 💊 **Farmaser**               | Ecommerce de farmacia con gestión de stock, ventas, clientes, integración Mercado Pago, actualización de productos y catálogo | `React` `Vite` `Java` `Spring Boot` `MySQL` | 🔨 En desarrollo                                     |
 
 </div>
-
----
-
-## 🌐 Conecta Conmigo
-
-<div align="center">
-
-<a href="https://linkedin.com/in/tillardfrancotomas">
-  <img src="https://img.shields.io/badge/LinkedIn-Franco_Tillard-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/>
-</a>
-<a href="mailto:tillardtomasfranco@gmail.com">
-  <img src="https://img.shields.io/badge/Email-tillardtomasfranco@gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
-</a>
-<a href="https://airesdellagolosmolinos.com.ar">
-  <img src="https://img.shields.io/badge/Portfolio-airesdellagolosmolinos.com.ar-667eea?style=for-the-badge&logo=google-chrome&logoColor=white"/>
-</a>
 
 <br/><br/>
 
