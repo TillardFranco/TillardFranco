@@ -26,9 +26,7 @@ Currently, I co-lead **Dev.Bit**, a software development venture where we transf
 - Collaboration on Open Source projects.
 - Technical discussions about Software Architecture and Scalability.
 
-**📫 Reach out to me at:** tillardtomasfranco@gmail.com
-
-</br>
+**📫 Reach out to me at:**
 
 <div align="center">
 
@@ -60,21 +58,17 @@ Currently, I co-lead **Dev.Bit**, a software development venture where we transf
 
 <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
-## 🚀 Proyectos Destacados
+## 🚀 Featured Projects
 
 <div align="center">
 
-| Proyecto                      | Descripción                                                                                                                   | Tech Stack                                  | Link                                                 |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------- |
-| 🏠 **Aires del Lago**         | Sitio web de promoción de cabañas con diseño responsivo y tiempo de carga <1.5s                                               | `React` `Vite`                              | 🔗[Ver sitio](https://airesdellagolosmolinos.com.ar) |
-| 💊 **Sistema de Gestion ERP** | Software de gestión con roles, control de stock,                                                                              | `Java Spring Boot` `MySQL`                  | 🔨 En desarrollo                                     |
-| 💊 **Farmaser**               | Ecommerce de farmacia con gestión de stock, ventas, clientes, integración Mercado Pago, actualización de productos y catálogo | `React` `Vite` `Java` `Spring Boot` `MySQL` | 🔨 En desarrollo                                     |
+| Project                   | Description                                                                                                                 | Tech Stack                                  | Link                                                 |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------- |
+| **Aires del Lago**        | Cabin promotion website with responsive design and load time <1.5s                                                          | `React` `Vite`                              | 🔗[View site](https://airesdellagolosmolinos.com.ar) |
+| **ERP Management System** | Management software with roles, stock control,                                                                              | `Java Spring Boot` `MySQL`                  | 🔨 In development                                    |
+| **Farmaser**              | Pharmacy ecommerce with stock management, sales, customer management, Mercado Pago integration, product updates and catalog | `React` `Vite` `Java` `Spring Boot` `MySQL` | 🔨 In development                                    |
 
 </div>
-
-<br/><br/>
-
-📍 **Córdoba, Argentina** | 📱 **+54 351 2381263** | 🌐 **Español Nativo** | 🇬🇧 **Inglés Intermedio**
 
 </div>
 
@@ -82,23 +76,11 @@ Currently, I co-lead **Dev.Bit**, a software development venture where we transf
 
 <div align="center">
 
-### 💭 Mi Filosofía
+### My Philosophy
 
-_"El código limpio no solo funciona, cuenta una historia clara y es fácil de mantener"_
+_"Clean code doesn't just work, it tells a clear story and is easy to maintain"_
 
 </div>
 
 <!-- FOOTER -->
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=120&section=footer" width="100%"/>
-
-<br/>
-
-<!-- SOCIAL BADGES -->
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/tillardfrancotomas)
-[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:tillardtomasfranco@gmail.com)
-[![Portfolio](https://img.shields.io/badge/Portfolio-667eea?style=for-the-badge&logo=google-chrome&logoColor=white)](https://airesdellagolosmolinos.com.ar)
-
-<br/>
-
-![Profile Views](https://komarev.com/ghpvc/?username=TillardFranco&color=667eea&style=for-the-badge&label=PROFILE+VIEWS)
