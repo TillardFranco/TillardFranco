@@ -70,17 +70,7 @@ Currently, I co-lead **Dev.Bit**, a software development venture where we transf
 
 </div>
 
-</div>
-
 ---
-
-<div align="center">
-
-### My Philosophy
-
-_"Clean code doesn't just work, it tells a clear story and is easy to maintain"_
-
-</div>
 
 <!-- FOOTER -->
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:667eea,100:764ba2&height=120&section=footer" width="100%"/>
