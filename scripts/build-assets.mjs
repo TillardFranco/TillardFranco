@@ -54,8 +54,6 @@ const SANS = "-apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, san
 const MONO = "ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'JetBrains Mono', Consolas, 'Liberation Mono', monospace";
 const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 const CHAR = 9; // grid width of one mono character at 15px
-const SIZE = 15;
-const LINE = 24;
 
 // Deterministic pseudo-random so regenerating does not churn the diff.
 const seededRandom = (seed) => () => {
@@ -75,23 +73,11 @@ const write = (name, svg) => {
 const COPY = {
   en: {
     title: "Franco Tillard, FullStack Developer",
-    lines: [
-      { cmd: "whoami" },
-      { out: "Franco Tillard", big: true },
-      { out: "FullStack developer · final-year Software Engineering student", muted: true },
-      { gap: true },
-      { cmd: "cat now.txt" },
-      { out: "→ Analyst Developer at MetroTec (since Feb 2026)" },
-      { out: "→ Co-founder of Dev.Bit, a software studio" },
-      { out: "→ Building Farmaser with Spring Boot + React" },
-      { gap: true },
-      { cmd: "ls stack/" },
-      { out: "java  spring-boot  react  node  typescript  mysql  postgresql  tailwind", accent: true },
-      { gap: true },
-      { cmd: "echo $MOTTO" },
-      { out: "from idea to production" },
-      { cmd: "", cursor: true },
-    ],
+    hero: {
+      name: "Franco Tillard",
+      tagline: "a fullstack developer, from idea to production",
+      cta: "Explore ↗",
+    },
     file: "README.md",
     tree: [
       { name: "franco-tillard/", dir: true, open: true, depth: 0 },
@@ -120,23 +106,11 @@ const COPY = {
   },
   es: {
     title: "Franco Tillard, Desarrollador FullStack",
-    lines: [
-      { cmd: "whoami" },
-      { out: "Franco Tillard", big: true },
-      { out: "Desarrollador FullStack · estudiante de último año de Ingeniería en Software", muted: true },
-      { gap: true },
-      { cmd: "cat ahora.txt" },
-      { out: "→ Desarrollador Analista en MetroTec (desde feb. 2026)" },
-      { out: "→ Cofundador de Dev.Bit, un estudio de software" },
-      { out: "→ Desarrollando Farmaser con Spring Boot + React" },
-      { gap: true },
-      { cmd: "ls stack/" },
-      { out: "java  spring-boot  react  node  typescript  mysql  postgresql  tailwind", accent: true },
-      { gap: true },
-      { cmd: "echo $LEMA" },
-      { out: "de la idea a producción" },
-      { cmd: "", cursor: true },
-    ],
+    hero: {
+      name: "Franco Tillard",
+      tagline: "desarrollador fullstack, de la idea a producción",
+      cta: "Explorar ↗",
+    },
     file: "README.es.md",
     tree: [
       { name: "franco-tillard/", dir: true, open: true, depth: 0 },
@@ -165,121 +139,106 @@ const COPY = {
   },
 };
 
-const monoText = (x, y, text, color) =>
-  `<text x="${x}" y="${y}" font-family="${MONO}" font-size="${SIZE}" fill="${color}" ` +
-  `textLength="${text.length * CHAR}" lengthAdjust="spacing">${escape(text)}</text>`;
-
-const PROMPT = (t) => [
-  { text: "franco@tillard", color: t.brand },
-  { text: ":~$", color: t.muted },
-];
-// Prompt plus the space before the command.
-const PROMPT_LEN = "franco@tillard:~$ ".length;
-
 // Scramble alphabet for the name reveal and glitch, as on digitalmeadow.studio.
 const NOISE = "!@#$%&*/\\|<>?";
 
 const scrambled = (text, keep, random) =>
   [...text].map((ch, i) => (ch === " " || i < keep ? ch : NOISE[Math.floor(random() * NOISE.length)])).join("");
 
-// Neovim-like editor: file tree, line numbers, typed session, tildes and statusline.
-const editorSvg = (t, { title, lines, tree, file }) => {
+// Swaps a few characters, for the short periodic glitch.
+const glitched = (text, random) =>
+  [...text].map((ch) => (ch !== " " && random() < 0.18 ? NOISE[Math.floor(random() * NOISE.length)] : ch)).join("");
+
+// Landing in the style of digitalmeadow.studio: a Neovim frame around an ASCII
+// meadow, with the name decoding from noise in the middle.
+const heroSvg = (t, { title, hero, tree, file }) => {
   const W = 1000;
   const BAR = 40;
   const SIDEBAR = 196;
   const GUTTER = 44;
-  const X0 = SIDEBAR + GUTTER + 18;
   const STATUS = 30;
-  const TYPE_SPEED = 0.05;
-  const random = seededRandom(7);
+  const X0 = SIDEBAR + GUTTER + 14;
+  const COLS = 80;
+  const ROWS = 21;
+  const ROW = 22;
+  const TOP = BAR + 28; // baseline of the first row
+  const NAME_ROW = 9;
+  const random = seededRandom(11);
+  const centerX = X0 + (COLS * CHAR) / 2;
 
-  let y = BAR + 34;
-  let time = 0.5;
-  let number = 1;
-  const rows = [];
+  // Cells kept empty so the text reads over the art.
+  const isClear = (c, r) => r >= NAME_ROW - 1 && r <= NAME_ROW + 5 && c >= 17 && c <= 62;
 
-  const lineNumber = (n, baseline) =>
-    `<text x="${SIDEBAR + GUTTER - 6}" y="${baseline}" text-anchor="end" font-family="${MONO}" font-size="12" fill="${t.muted}" fill-opacity="0.7">${n}</text>`;
-
-  for (const line of lines) {
-    if (line.gap) {
-      rows.push(`<g class="show" style="animation-delay:${time.toFixed(2)}s">${lineNumber(number++, y)}</g>`);
-      y += LINE;
-      continue;
+  const columns = [];
+  for (let c = 0; c < COLS; c++) {
+    const cells = new Map();
+    for (let r = 0; r < ROWS; r++) {
+      if (isClear(c, r)) continue;
+      // Denser toward a mound centered low in the window.
+      const dx = (c - COLS / 2) / (COLS / 2);
+      const dy = (r - 17) / 7;
+      const mound = Math.exp(-(dx * dx * 1.5 + dy * dy * 1.2));
+      if (random() > 0.95 * mound + 0.015) continue;
+      const level = mound > 0.6 ? 3 : mound > 0.32 ? 2 : 1;
+      cells.set(r, { ch: ["|", "|", "/", "\\"][Math.floor(random() * 4)], cls: random() < 0.05 ? "b" : `a${level}` });
     }
-
-    if ("cmd" in line) {
-      let x = X0;
-      let body = lineNumber(number++, y);
-      for (const part of PROMPT(t)) {
-        body += monoText(x, y, part.text, part.color);
-        x += part.text.length * CHAR;
+    // Loose vertical strands in the upper part, as on the reference.
+    if (random() < 0.14) {
+      const start = Math.floor(random() * 6);
+      const length = 2 + Math.floor(random() * 3);
+      for (let r = start; r < start + length; r++) {
+        if (!isClear(c, r) && !cells.has(r)) cells.set(r, { ch: "|", cls: "a1" });
       }
-      const cmdX = X0 + PROMPT_LEN * CHAR;
-      const typed = line.cmd.length;
-      const duration = typed * TYPE_SPEED;
-
-      if (typed) {
-        // A window-colored curtain slides right one character at a time.
-        body +=
-          monoText(cmdX, y, line.cmd, t.fg) +
-          `<rect class="curtain" style="--w:${typed * CHAR + 2}px;animation-delay:${time.toFixed(2)}s;` +
-          `animation-duration:${duration.toFixed(2)}s;animation-timing-function:steps(${typed}, end)" ` +
-          `x="${cmdX - 1}" y="${y - SIZE}" width="${typed * CHAR + 2}" height="${LINE}" fill="${t.window}"/>`;
-      }
-      if (line.cursor) {
-        body += `<rect class="blink" x="${cmdX}" y="${y - SIZE + 2}" width="${CHAR}" height="${SIZE + 3}" fill="${t.brand}"/>`;
-      }
-
-      rows.push(`<g class="show" style="animation-delay:${time.toFixed(2)}s">${body}</g>`);
-      time += duration + 0.35;
-      y += LINE;
-      continue;
     }
-
-    if (line.big) {
-      // The name decodes from noise, then glitches every few seconds.
-      y += 10;
-      const baseline = y + 6;
-      const big = (text, extra = "") =>
-        `<text x="${X0}" y="${baseline}" font-family="${MONO}" font-size="30" font-weight="700" fill="${t.fg}" ` +
-        `textLength="${text.length * 18}" lengthAdjust="spacing"${extra}>${escape(text)}</text>`;
-      const steps = 7;
-      const frames = Array.from({ length: steps }, (_, k) => {
-        const keep = Math.round((k / steps) * line.out.length);
-        return big(
-          scrambled(line.out, keep, random),
-          ` class="scramble" style="animation-delay:${(time + k * 0.07).toFixed(2)}s"`
-        );
-      }).join("");
-      const glitch = big(scrambled(line.out, 0, random).replace(/./g, (ch, i) => (i % 4 === 1 ? ch : line.out[i])), ` class="glitch"`);
-      const revealAt = time + steps * 0.07;
-      rows.push(
-        lineNumber(number++, baseline) +
-          frames +
-          `<g class="glitch-hide"><g class="show" style="animation-delay:${revealAt.toFixed(2)}s">${big(line.out)}</g></g>` +
-          glitch
-      );
-      time = revealAt;
-      y += LINE + 18;
-    } else {
-      const color = line.accent ? t.brand : line.muted ? t.muted : t.fg;
-      rows.push(
-        `<g class="show" style="animation-delay:${time.toFixed(2)}s">${lineNumber(number++, y)}${monoText(X0, y, line.out, color)}</g>`
-      );
-      y += LINE;
-    }
-    time += 0.12;
+    if (!cells.size) continue;
+    const glyphs = [...cells.entries()]
+      .map(([r, cell]) => `<text x="${X0 + c * CHAR}" y="${TOP + r * ROW}" class="${cell.cls}">${escape(cell.ch)}</text>`)
+      .join("");
+    columns.push(`<g class="blade" style="animation-delay:${(-c * 0.07).toFixed(2)}s">${glyphs}</g>`);
   }
 
-  // Lines past the end of the buffer, as vim shows them.
-  const tildes = Array.from({ length: 3 }, (_, i) =>
-    `<text x="${SIDEBAR + GUTTER - 6}" y="${y + i * LINE}" text-anchor="end" font-family="${MONO}" font-size="13" fill="${t.brand}" fill-opacity="0.55">~</text>`
-  ).join("");
-  y += LINE * 3;
+  // Centered text: name and tagline decode from noise, then glitch now and then.
+  const nameY = TOP + NAME_ROW * ROW;
+  const tagY = nameY + 30;
+  const ctaY = tagY + 34;
+  const nameText = (text, extra = "") =>
+    `<text x="${centerX}" y="${nameY}" text-anchor="middle" font-family="${MONO}" font-size="28" font-weight="700" fill="${t.fg}" ` +
+    `textLength="${text.length * 17}" lengthAdjust="spacing"${extra}>${escape(text)}</text>`;
+  const tagText = (text, extra = "") =>
+    `<text x="${centerX}" y="${tagY}" text-anchor="middle" font-family="${MONO}" font-size="14" fill="${t.muted}" ` +
+    `textLength="${text.length * 8.4}" lengthAdjust="spacing"${extra}>${escape(text)}</text>`;
 
-  const H = y + STATUS - 6;
-  const statusY = H - STATUS;
+  const decode = (text, render, start) => {
+    const steps = 8;
+    const frames = Array.from({ length: steps }, (_, k) =>
+      render(
+        scrambled(text, Math.round((k / steps) * text.length), random),
+        ` class="scramble" style="animation-delay:${(start + k * 0.07).toFixed(2)}s"`
+      )
+    ).join("");
+    return { frames, revealAt: start + steps * 0.07 };
+  };
+
+  const name = decode(hero.name, nameText, 0.7);
+  const tagline = decode(hero.tagline, tagText, 1.0);
+
+  const ctaW = Math.round(hero.cta.length * 8.4 + 48);
+  const cta =
+    `<g class="show" style="animation-delay:${(tagline.revealAt + 0.15).toFixed(2)}s">` +
+    `<rect x="${centerX - ctaW / 2}" y="${ctaY - 19}" width="${ctaW}" height="28" rx="6" fill="none" stroke="${t.brand}"/>` +
+    `<text x="${centerX}" y="${ctaY}" text-anchor="middle" font-family="${MONO}" font-size="14" font-weight="600" fill="${t.brand}">${escape(hero.cta)}</text></g>`;
+
+  // Line numbers for the art rows, then tildes past the end of the buffer.
+  const gutterX = SIDEBAR + GUTTER - 6;
+  const numbers = Array.from({ length: ROWS }, (_, r) =>
+    `<text x="${gutterX}" y="${TOP + r * ROW}" text-anchor="end" class="n">${r + 1}</text>`
+  ).join("");
+  const tildes = Array.from({ length: 3 }, (_, i) =>
+    `<text x="${gutterX}" y="${TOP + (ROWS + i) * ROW}" text-anchor="end" class="tilde">~</text>`
+  ).join("");
+
+  const statusY = TOP + (ROWS + 2) * ROW + 14;
+  const H = statusY + STATUS;
 
   // File tree in the sidebar; the open file is highlighted.
   const treeRows = tree
@@ -298,31 +257,32 @@ const editorSvg = (t, { title, lines, tree, file }) => {
   const dots = [0, 1, 2]
     .map((i) => `<circle cx="${24 + i * 20}" cy="${BAR / 2}" r="6" fill="${t.border}"/>`)
     .join("");
-  const position = `ln ${number - 1}, col 1`;
 
   return `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="title">
   <title id="title">${escape(title)}</title>
   <style>
     text { white-space: pre; }
+    .field text { font-family: ${MONO}; font-size: 15px; fill: ${t.muted}; }
+    .field .a1 { fill-opacity: 0.28; }
+    .field .a2 { fill-opacity: 0.45; }
+    .field .a3 { fill-opacity: 0.65; }
+    .field .b { fill: ${t.brand}; fill-opacity: 0.85; }
+    .n { font-family: ${MONO}; font-size: 12px; fill: ${t.muted}; fill-opacity: 0.7; }
+    .tilde { font-family: ${MONO}; font-size: 13px; fill: ${t.brand}; fill-opacity: 0.55; }
+    .field { animation: show 1.4s ease-out 0.1s both; }
+    .blade { animation: sway 5s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
     .show { animation: show 0.18s ease-out both; }
-    .curtain { opacity: 0; animation-name: type; animation-fill-mode: both; }
-    .blink { animation: blink 1.1s linear infinite; }
     .scramble { opacity: 0; animation: flash 0.07s linear; }
-    .glitch { opacity: 0; animation: glitch 7s linear 6s infinite; }
-    .glitch-hide { animation: glitch-hide 7s linear 6s infinite; }
+    .glitch { opacity: 0; animation: glitch 7s linear infinite; }
+    .glitch-hide { animation: glitch-hide 7s linear infinite; }
     @keyframes show { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes type {
-      from { transform: translateX(0); opacity: 1; }
-      99% { transform: translateX(var(--w)); opacity: 1; }
-      to { transform: translateX(var(--w)); opacity: 0; }
-    }
-    @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes sway { from { transform: skewX(-3deg); } to { transform: skewX(3deg); } }
     @keyframes flash { from, to { opacity: 1; } }
     @keyframes glitch { 0%, 95.9% { opacity: 0; } 96%, 98% { opacity: 1; } 98.1%, 100% { opacity: 0; } }
     @keyframes glitch-hide { 0%, 95.9% { opacity: 1; } 96%, 98% { opacity: 0; } 98.1%, 100% { opacity: 1; } }
     @media (prefers-reduced-motion: reduce) {
-      .show, .curtain, .blink, .scramble, .glitch, .glitch-hide { animation: none; }
+      .field, .blade, .show, .scramble, .glitch, .glitch-hide { animation: none; }
     }
   </style>
   <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="12" fill="${t.window}" stroke="${t.border}"/>
@@ -333,14 +293,24 @@ const editorSvg = (t, { title, lines, tree, file }) => {
   <line x1="0.5" y1="${BAR}" x2="${W - 0.5}" y2="${BAR}" stroke="${t.border}"/>
   ${dots}
   <text x="${W / 2}" y="${BAR / 2 + 5}" text-anchor="middle" font-family="${MONO}" font-size="13" fill="${t.muted}">nvim ~/franco-tillard/${escape(file)}</text>
-  ${rows.join("\n  ")}
+  ${numbers}
   ${tildes}
+  <g class="field">
+  ${columns.join("\n  ")}
+  </g>
+  ${name.frames}
+  <g class="glitch-hide" style="animation-delay:6s"><g class="show" style="animation-delay:${name.revealAt.toFixed(2)}s">${nameText(hero.name)}</g></g>
+  ${nameText(glitched(hero.name, random), ` class="glitch" style="animation-delay:6s"`)}
+  ${tagline.frames}
+  <g class="glitch-hide" style="animation-delay:9.5s"><g class="show" style="animation-delay:${tagline.revealAt.toFixed(2)}s">${tagText(hero.tagline)}</g></g>
+  ${tagText(glitched(hero.tagline, random), ` class="glitch" style="animation-delay:9.5s"`)}
+  ${cta}
   <path d="M0.5 ${statusY} H${W - 0.5} V${H - 12.5} A12 12 0 0 1 ${W - 12.5} ${H - 0.5} H12.5 A12 12 0 0 1 0.5 ${H - 12.5} Z" fill="${t.bar}"/>
   <line x1="0.5" y1="${statusY}" x2="${W - 0.5}" y2="${statusY}" stroke="${t.border}"/>
   <rect x="12" y="${statusY + 6}" width="72" height="${STATUS - 12}" rx="3" fill="${t.brand}"/>
   <text x="48" y="${statusY + 19}" text-anchor="middle" font-family="${MONO}" font-size="11" font-weight="700" fill="${t.brandFg}">NORMAL</text>
   <text x="98" y="${statusY + 19}" font-family="${MONO}" font-size="12" fill="${t.fg}">${escape(file)}</text>
-  <text x="${W - 16}" y="${statusY + 19}" text-anchor="end" font-family="${MONO}" font-size="12" fill="${t.muted}">utf-8   ${position}</text>
+  <text x="${W - 16}" y="${statusY + 19}" text-anchor="end" font-family="${MONO}" font-size="12" fill="${t.muted}">utf-8   ln 1, col 1</text>
 </svg>`;
 };
 
@@ -480,7 +450,7 @@ const languageKeys = (t, active) => {
 for (const [mode, theme] of Object.entries(THEMES)) {
   write(`meadow-${mode}.svg`, meadowSvg(theme));
   for (const [lang, copy] of Object.entries(COPY)) {
-    write(`terminal-${lang}-${mode}.svg`, editorSvg(theme, copy));
+    write(`terminal-${lang}-${mode}.svg`, heroSvg(theme, copy));
     write(`about-${lang}-${mode}.svg`, bentoSvg(theme, copy.bento));
     write(`lang/${lang}-${mode}.svg`, languageKeys(theme, lang));
     for (const [name, label] of Object.entries(copy.keys)) {
