@@ -57,6 +57,12 @@ const CHAR = 9; // grid width of one mono character at 15px
 const SIZE = 15;
 const LINE = 24;
 
+// Deterministic pseudo-random so regenerating does not churn the diff.
+const seededRandom = (seed) => () => {
+  seed = (seed * 1664525 + 1013904223) % 4294967296;
+  return seed / 4294967296;
+};
+
 const escape = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 const write = (name, svg) => {
@@ -85,6 +91,15 @@ const COPY = {
       { cmd: "echo $MOTTO" },
       { out: "from idea to production" },
       { cmd: "", cursor: true },
+    ],
+    file: "README.md",
+    tree: [
+      { name: "franco-tillard/", dir: true, open: true, depth: 0 },
+      { name: "about/", dir: true, depth: 1 },
+      { name: "stack/", dir: true, depth: 1 },
+      { name: "projects/", dir: true, depth: 1 },
+      { name: "README.md", depth: 1 },
+      { name: "README.es.md", depth: 1 },
     ],
     keys: { portfolio: "portfolio ↗", linkedin: "linkedin ↗", email: "email" },
     bento: {
@@ -122,6 +137,15 @@ const COPY = {
       { out: "de la idea a producción" },
       { cmd: "", cursor: true },
     ],
+    file: "README.es.md",
+    tree: [
+      { name: "franco-tillard/", dir: true, open: true, depth: 0 },
+      { name: "sobre-mi/", dir: true, depth: 1 },
+      { name: "stack/", dir: true, depth: 1 },
+      { name: "proyectos/", dir: true, depth: 1 },
+      { name: "README.md", depth: 1 },
+      { name: "README.es.md", depth: 1 },
+    ],
     keys: { portfolio: "portafolio ↗", linkedin: "linkedin ↗", email: "email" },
     bento: {
       alt: "Sobre Franco",
@@ -152,30 +176,46 @@ const PROMPT = (t) => [
 // Prompt plus the space before the command.
 const PROMPT_LEN = "franco@tillard:~$ ".length;
 
-const terminalSvg = (t, { title, lines }) => {
-  const W = 1000;
-  const PAD_X = 32;
-  const BAR = 40;
-  const TYPE_SPEED = 0.05;
+// Scramble alphabet for the name reveal and glitch, as on digitalmeadow.studio.
+const NOISE = "!@#$%&*/\\|<>?";
 
-  let y = BAR + 36;
+const scrambled = (text, keep, random) =>
+  [...text].map((ch, i) => (ch === " " || i < keep ? ch : NOISE[Math.floor(random() * NOISE.length)])).join("");
+
+// Neovim-like editor: file tree, line numbers, typed session, tildes and statusline.
+const editorSvg = (t, { title, lines, tree, file }) => {
+  const W = 1000;
+  const BAR = 40;
+  const SIDEBAR = 196;
+  const GUTTER = 44;
+  const X0 = SIDEBAR + GUTTER + 18;
+  const STATUS = 30;
+  const TYPE_SPEED = 0.05;
+  const random = seededRandom(7);
+
+  let y = BAR + 34;
   let time = 0.5;
+  let number = 1;
   const rows = [];
+
+  const lineNumber = (n, baseline) =>
+    `<text x="${SIDEBAR + GUTTER - 6}" y="${baseline}" text-anchor="end" font-family="${MONO}" font-size="12" fill="${t.muted}" fill-opacity="0.7">${n}</text>`;
 
   for (const line of lines) {
     if (line.gap) {
-      y += LINE * 0.6;
+      rows.push(`<g class="show" style="animation-delay:${time.toFixed(2)}s">${lineNumber(number++, y)}</g>`);
+      y += LINE;
       continue;
     }
 
     if ("cmd" in line) {
-      let x = PAD_X;
-      let body = "";
+      let x = X0;
+      let body = lineNumber(number++, y);
       for (const part of PROMPT(t)) {
         body += monoText(x, y, part.text, part.color);
         x += part.text.length * CHAR;
       }
-      const cmdX = PAD_X + PROMPT_LEN * CHAR;
+      const cmdX = X0 + PROMPT_LEN * CHAR;
       const typed = line.cmd.length;
       const duration = typed * TYPE_SPEED;
 
@@ -198,30 +238,67 @@ const terminalSvg = (t, { title, lines }) => {
     }
 
     if (line.big) {
+      // The name decodes from noise, then glitches every few seconds.
       y += 10;
+      const baseline = y + 6;
+      const big = (text, extra = "") =>
+        `<text x="${X0}" y="${baseline}" font-family="${MONO}" font-size="30" font-weight="700" fill="${t.fg}" ` +
+        `textLength="${text.length * 18}" lengthAdjust="spacing"${extra}>${escape(text)}</text>`;
+      const steps = 7;
+      const frames = Array.from({ length: steps }, (_, k) => {
+        const keep = Math.round((k / steps) * line.out.length);
+        return big(
+          scrambled(line.out, keep, random),
+          ` class="scramble" style="animation-delay:${(time + k * 0.07).toFixed(2)}s"`
+        );
+      }).join("");
+      const glitch = big(scrambled(line.out, 0, random).replace(/./g, (ch, i) => (i % 4 === 1 ? ch : line.out[i])), ` class="glitch"`);
+      const revealAt = time + steps * 0.07;
       rows.push(
-        `<g class="show" style="animation-delay:${time.toFixed(2)}s">` +
-          `<text x="${PAD_X}" y="${y + 6}" font-family="${MONO}" font-size="30" font-weight="700" fill="${t.fg}" ` +
-          `textLength="${line.out.length * 18}" lengthAdjust="spacing">${escape(line.out)}</text></g>`
+        lineNumber(number++, baseline) +
+          frames +
+          `<g class="glitch-hide"><g class="show" style="animation-delay:${revealAt.toFixed(2)}s">${big(line.out)}</g></g>` +
+          glitch
       );
+      time = revealAt;
       y += LINE + 18;
     } else {
       const color = line.accent ? t.brand : line.muted ? t.muted : t.fg;
-      rows.push(`<g class="show" style="animation-delay:${time.toFixed(2)}s">${monoText(PAD_X, y, line.out, color)}</g>`);
+      rows.push(
+        `<g class="show" style="animation-delay:${time.toFixed(2)}s">${lineNumber(number++, y)}${monoText(X0, y, line.out, color)}</g>`
+      );
       y += LINE;
     }
     time += 0.12;
   }
 
-  const H = y + 14;
-  // Column guides inside the window, a nod to the portfolio canvas.
-  const guides = Array.from({ length: 5 }, (_, i) => {
-    const gx = Math.round((W / 6) * (i + 1));
-    return `<line x1="${gx}" y1="${BAR}" x2="${gx}" y2="${H}" stroke="${t.grid}"/>`;
-  }).join("");
+  // Lines past the end of the buffer, as vim shows them.
+  const tildes = Array.from({ length: 3 }, (_, i) =>
+    `<text x="${SIDEBAR + GUTTER - 6}" y="${y + i * LINE}" text-anchor="end" font-family="${MONO}" font-size="13" fill="${t.brand}" fill-opacity="0.55">~</text>`
+  ).join("");
+  y += LINE * 3;
+
+  const H = y + STATUS - 6;
+  const statusY = H - STATUS;
+
+  // File tree in the sidebar; the open file is highlighted.
+  const treeRows = tree
+    .map((item, i) => {
+      const ty = BAR + 30 + i * 24;
+      const active = item.name === file;
+      const label = `${" ".repeat(item.depth * 2)}${item.dir ? (item.open ? "▾ " : "▸ ") : "  "}${item.name}`;
+      return (
+        (active ? `<rect x="0.5" y="${ty - 16}" width="${SIDEBAR - 1}" height="23" fill="${t.brand}"/>` : "") +
+        `<text x="16" y="${ty}" font-family="${MONO}" font-size="13" font-weight="${item.depth === 0 ? 700 : 400}" ` +
+        `fill="${active ? t.brandFg : item.dir ? t.fg : t.muted}">${escape(label)}</text>`
+      );
+    })
+    .join("");
+
   const dots = [0, 1, 2]
     .map((i) => `<circle cx="${24 + i * 20}" cy="${BAR / 2}" r="6" fill="${t.border}"/>`)
     .join("");
+  const position = `ln ${number - 1}, col 1`;
 
   return `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="title">
@@ -231,6 +308,9 @@ const terminalSvg = (t, { title, lines }) => {
     .show { animation: show 0.18s ease-out both; }
     .curtain { opacity: 0; animation-name: type; animation-fill-mode: both; }
     .blink { animation: blink 1.1s linear infinite; }
+    .scramble { opacity: 0; animation: flash 0.07s linear; }
+    .glitch { opacity: 0; animation: glitch 7s linear 6s infinite; }
+    .glitch-hide { animation: glitch-hide 7s linear 6s infinite; }
     @keyframes show { from { opacity: 0; } to { opacity: 1; } }
     @keyframes type {
       from { transform: translateX(0); opacity: 1; }
@@ -238,17 +318,65 @@ const terminalSvg = (t, { title, lines }) => {
       to { transform: translateX(var(--w)); opacity: 0; }
     }
     @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes flash { from, to { opacity: 1; } }
+    @keyframes glitch { 0%, 95.9% { opacity: 0; } 96%, 98% { opacity: 1; } 98.1%, 100% { opacity: 0; } }
+    @keyframes glitch-hide { 0%, 95.9% { opacity: 1; } 96%, 98% { opacity: 0; } 98.1%, 100% { opacity: 1; } }
     @media (prefers-reduced-motion: reduce) {
-      .show, .curtain, .blink { animation: none; }
+      .show, .curtain, .blink, .scramble, .glitch, .glitch-hide { animation: none; }
     }
   </style>
   <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="12" fill="${t.window}" stroke="${t.border}"/>
-  ${guides}
+  <rect x="0.5" y="${BAR}" width="${SIDEBAR}" height="${statusY - BAR}" fill="${t.bar}"/>
+  <line x1="${SIDEBAR + 0.5}" y1="${BAR}" x2="${SIDEBAR + 0.5}" y2="${statusY}" stroke="${t.border}"/>
+  ${treeRows}
   <path d="M0.5 12.5 A12 12 0 0 1 12.5 0.5 H${W - 12.5} A12 12 0 0 1 ${W - 0.5} 12.5 V${BAR} H0.5 Z" fill="${t.bar}"/>
   <line x1="0.5" y1="${BAR}" x2="${W - 0.5}" y2="${BAR}" stroke="${t.border}"/>
   ${dots}
-  <text x="${W / 2}" y="${BAR / 2 + 5}" text-anchor="middle" font-family="${MONO}" font-size="13" fill="${t.muted}">franco@tillard: ~</text>
+  <text x="${W / 2}" y="${BAR / 2 + 5}" text-anchor="middle" font-family="${MONO}" font-size="13" fill="${t.muted}">nvim ~/franco-tillard/${escape(file)}</text>
   ${rows.join("\n  ")}
+  ${tildes}
+  <path d="M0.5 ${statusY} H${W - 0.5} V${H - 12.5} A12 12 0 0 1 ${W - 12.5} ${H - 0.5} H12.5 A12 12 0 0 1 0.5 ${H - 12.5} Z" fill="${t.bar}"/>
+  <line x1="0.5" y1="${statusY}" x2="${W - 0.5}" y2="${statusY}" stroke="${t.border}"/>
+  <rect x="12" y="${statusY + 6}" width="72" height="${STATUS - 12}" rx="3" fill="${t.brand}"/>
+  <text x="48" y="${statusY + 19}" text-anchor="middle" font-family="${MONO}" font-size="11" font-weight="700" fill="${t.brandFg}">NORMAL</text>
+  <text x="98" y="${statusY + 19}" font-family="${MONO}" font-size="12" fill="${t.fg}">${escape(file)}</text>
+  <text x="${W - 16}" y="${statusY + 19}" text-anchor="end" font-family="${MONO}" font-size="12" fill="${t.muted}">utf-8   ${position}</text>
+</svg>`;
+};
+
+// ASCII meadow footer: blades of | / \ that sway in a wave, a few flowering.
+const meadowSvg = (t) => {
+  const W = 1000;
+  const H = 120;
+  const random = seededRandom(21);
+  const cols = Math.floor(W / CHAR);
+  const blades = [];
+  for (let c = 0; c < cols; c++) {
+    if (random() < 0.35) continue;
+    // Taller blades toward the middle, like a hill.
+    const hill = 1 - Math.abs(c / cols - 0.5) * 1.4;
+    const height = Math.max(1, Math.round((1 + random() * 4) * hill));
+    const chars = Array.from({ length: height }, (_, i) => {
+      if (i === height - 1 && random() < 0.08) return "*";
+      return ["|", "|", "/", "\\"][Math.floor(random() * 4)];
+    });
+    const x = c * CHAR;
+    const text = chars
+      .map((ch, i) => {
+        const flower = ch === "*";
+        return `<text x="${x}" y="${H - 8 - i * 16}" font-family="${MONO}" font-size="15" fill="${flower ? t.brand : t.muted}" fill-opacity="${flower ? 1 : (0.35 + random() * 0.4).toFixed(2)}">${escape(ch)}</text>`;
+      })
+      .join("");
+    blades.push(`<g class="blade" style="animation-delay:${(-c * 0.06).toFixed(2)}s">${text}</g>`);
+  }
+  return `
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="ASCII meadow">
+  <style>
+    .blade { animation: sway 4s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
+    @keyframes sway { from { transform: skewX(-14deg); } to { transform: skewX(10deg); } }
+    @media (prefers-reduced-motion: reduce) { .blade { animation: none; } }
+  </style>
+  ${blades.join("\n  ")}
 </svg>`;
 };
 
@@ -350,8 +478,9 @@ const languageKeys = (t, active) => {
 };
 
 for (const [mode, theme] of Object.entries(THEMES)) {
+  write(`meadow-${mode}.svg`, meadowSvg(theme));
   for (const [lang, copy] of Object.entries(COPY)) {
-    write(`terminal-${lang}-${mode}.svg`, terminalSvg(theme, copy));
+    write(`terminal-${lang}-${mode}.svg`, editorSvg(theme, copy));
     write(`about-${lang}-${mode}.svg`, bentoSvg(theme, copy.bento));
     write(`lang/${lang}-${mode}.svg`, languageKeys(theme, lang));
     for (const [name, label] of Object.entries(copy.keys)) {

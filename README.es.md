@@ -5,7 +5,7 @@
 </p>
 
 <a href="https://forestgreen-kingfisher-459506.hostingersite.com/">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/terminal-es-dark.svg"><img alt="Sesión de terminal: Franco Tillard, desarrollador FullStack y estudiante de último año de Ingeniería en Software. Desarrollador Analista en MetroTec, cofundador de Dev.Bit." src="./assets/terminal-es-light.svg" width="100%"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/terminal-es-dark.svg"><img alt="Sesión de Neovim: Franco Tillard, desarrollador FullStack y estudiante de último año de Ingeniería en Software. Desarrollador Analista en MetroTec, cofundador de Dev.Bit." src="./assets/terminal-es-light.svg" width="100%"></picture>
 </a>
 
 <p>
@@ -94,3 +94,7 @@ stack/
     </tr>
   </table>
 </details>
+
+<br>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/meadow-dark.svg"><img alt="" src="./assets/meadow-light.svg" width="100%"></picture>
