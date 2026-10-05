@@ -55,14 +55,50 @@ const write = (name, svg) => {
   console.log(`wrote assets/${name}`);
 };
 
-// Deterministic pseudo-random so regenerating does not churn the diff.
-const random = (() => {
-  let seed = 20260211;
-  return () => {
-    seed = (seed * 1664525 + 1013904223) % 4294967296;
-    return seed / 4294967296;
-  };
-})();
+// Deterministic pseudo-random so every variant shares one pixel layout
+// and regenerating does not churn the diff.
+const seededRandom = (seed) => () => {
+  seed = (seed * 1664525 + 1013904223) % 4294967296;
+  return seed / 4294967296;
+};
+
+// Visible copy per language. English files keep the root asset paths.
+const COPY = {
+  en: {
+    title: "Franco Tillard, FullStack Developer",
+    available: "Available for work",
+    bio: [
+      "FullStack developer and final-year",
+      "Software Engineering student. I build",
+      "web products with React, Java and",
+      "Spring Boot, from idea to production.",
+    ],
+    selection: "Text",
+    cta: "VIEW PORTFOLIO ↗",
+    pixelMode: "Pixel mode",
+    motto: ["“FROM IDEA", "TO PRODUCTION”"],
+    mottoTitle: "From idea to production",
+    role: "FULLSTACK DEVELOPER",
+    buttons: { portfolio: "PORTFOLIO ↗", linkedin: "LINKEDIN ↗", email: "EMAIL" },
+  },
+  es: {
+    title: "Franco Tillard, Desarrollador FullStack",
+    available: "Disponible para trabajar",
+    bio: [
+      "Desarrollador FullStack y estudiante",
+      "de último año de Ingeniería en Software.",
+      "Construyo productos web con React, Java",
+      "y Spring Boot, de la idea a producción.",
+    ],
+    selection: "Texto",
+    cta: "VER PORTAFOLIO ↗",
+    pixelMode: "Modo píxel",
+    motto: ["“DE LA IDEA", "A PRODUCCIÓN”"],
+    mottoTitle: "De la idea a producción",
+    role: "DESARROLLADOR FULLSTACK",
+    buttons: { portfolio: "PORTAFOLIO ↗", linkedin: "LINKEDIN ↗", email: "EMAIL" },
+  },
+};
 
 const gridLines = (width, height, color, pad = 40, cols = 6) =>
   Array.from({ length: cols + 1 }, (_, i) => {
@@ -81,6 +117,7 @@ const GLYPHS = {
 };
 
 const pixelWord = (word, x0, y0, cell, t) => {
+  const random = seededRandom(20260211);
   const pixels = [];
   let col = 0;
   for (const letter of word) {
@@ -117,7 +154,7 @@ const pixelWord = (word, x0, y0, cell, t) => {
 const cursorShape = (fill, stroke) =>
   `<path d="M0 0 L0 19 L5 14.5 L8.6 22 L11.6 20.6 L8.1 13.4 L14.6 13.4 Z" fill="${fill}" stroke="${stroke}" stroke-width="1.4" stroke-linejoin="round"/>`;
 
-const heroSvg = (t) => {
+const heroSvg = (t, c) => {
   const W = 1200;
   const H = 440;
   // Both words share one frame size so the frame can glide between them.
@@ -142,18 +179,13 @@ const heroSvg = (t) => {
     .map(([hx, hy]) => `<rect x="${hx - 4}" y="${hy - 4}" width="8" height="8" fill="${t.bg}" stroke="${t.brand}"/>`)
     .join("");
 
-  const bio = [
-    "FullStack developer and final-year",
-    "Software Engineering student. I build",
-    "web products with React, Java and",
-    "Spring Boot, from idea to production.",
-  ]
+  const bio = c.bio
     .map((line, i) => `<tspan x="720" dy="${i === 0 ? 0 : 30}">${line}</tspan>`)
     .join("");
 
   return `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="title">
-  <title id="title">Franco Tillard, FullStack Developer</title>
+  <title id="title">${c.title}</title>
   <style>
     .px { animation: assemble 1.4s ${EASE} both; }
     .wave { animation: wave 7s ease-in-out infinite; transform-box: fill-box; }
@@ -201,10 +233,10 @@ const heroSvg = (t) => {
   <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" fill="none" stroke="${t.border}"/>
 
   <g class="fade">
-    <rect x="40" y="36" width="178" height="32" rx="16" fill="${t.card}" stroke="${t.border}"/>
+    <rect x="40" y="36" width="${Math.round(c.available.length * 7.2 + 48)}" height="32" rx="16" fill="${t.card}" stroke="${t.border}"/>
     <circle class="ring" cx="60" cy="52" r="4" fill="${t.success}"/>
     <circle cx="60" cy="52" r="4" fill="${t.success}"/>
-    <text x="74" y="57" font-family="${FONT}" font-size="13" font-weight="600" fill="${t.fg}">Available for work</text>
+    <text x="74" y="57" font-family="${FONT}" font-size="13" font-weight="600" fill="${t.fg}">${c.available}</text>
   </g>
 
   <text class="fade" x="${first.x + padX}" y="${first.y + padY + wordH}" font-family="${FONT}" font-size="134" font-weight="700"
@@ -218,18 +250,18 @@ const heroSvg = (t) => {
     <g transform="translate(${first.x} ${first.y})">
       <rect width="${frameW}" height="${frameH}" fill="none" stroke="${t.brand}" stroke-width="1.5"/>
       ${handles}
-      <rect x="0" y="-22" width="34" height="17" rx="3" fill="${t.brand}"/>
-      <text x="17" y="-10" text-anchor="middle" font-family="${FONT}" font-size="10" font-weight="600" fill="${t.brandFg}">Text</text>
+      <rect x="0" y="-22" width="${c.selection.length * 6 + 10}" height="17" rx="3" fill="${t.brand}"/>
+      <text x="${(c.selection.length * 6 + 10) / 2}" y="-10" text-anchor="middle" font-family="${FONT}" font-size="10" font-weight="600" fill="${t.brandFg}">${c.selection}</text>
     </g>
   </g>
 
   <g class="fade" style="animation-delay:0.35s">
     <rect x="${last.x}" y="380" width="196" height="42" rx="21" fill="${t.fg}"/>
     <text x="${last.x + 98}" y="406" text-anchor="middle" font-family="${FONT}" font-size="13" font-weight="600"
-      letter-spacing="1.2" fill="${t.bg}">VIEW PORTFOLIO ↗</text>
+      letter-spacing="1.2" fill="${t.bg}">${c.cta}</text>
     <rect x="${last.x + 228}" y="390" width="40" height="22" rx="11" fill="${t.brand}"/>
     <circle cx="${last.x + 257}" cy="401" r="8" fill="${t.bg}"/>
-    <text x="${last.x + 280}" y="406" font-family="${FONT}" font-size="14" fill="${t.muted}">Pixel mode</text>
+    <text x="${last.x + 280}" y="406" font-family="${FONT}" font-size="14" fill="${t.muted}">${c.pixelMode}</text>
   </g>
 
   <g class="cursor" transform="translate(640 196)">
@@ -302,12 +334,15 @@ const stackSvg = (t) => {
 </svg>`;
 };
 
-const mottoSvg = (t) => {
+const mottoSvg = (t, c) => {
   const W = 1200;
   const H = 300;
+  const [first, second] = c.motto;
+  // Quote marks are part of each line so the width tracks the character count.
+  const width = (line) => Math.round(line.length * 52.5);
   return `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="title">
-  <title id="title">From idea to production</title>
+  <title id="title">${c.mottoTitle}</title>
   <style>
     .line { animation: rise 1s ${EASE} both; }
     @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
@@ -316,23 +351,23 @@ const mottoSvg = (t) => {
   <rect width="${W}" height="${H}" fill="${t.ink}"/>
   ${gridLines(W, H, t.inkLine)}
   <g font-family="${FONT}" font-weight="700" font-size="84" fill="${t.inkFg}">
-    <text class="line" x="40" y="118" textLength="520" lengthAdjust="spacingAndGlyphs"><tspan fill="${t.brand}">“</tspan>FROM IDEA</text>
-    <text class="line" style="animation-delay:0.15s" x="226" y="204" textLength="740" lengthAdjust="spacingAndGlyphs">TO PRODUCTION<tspan fill="${t.brand}">”</tspan></text>
+    <text class="line" x="40" y="118" textLength="${width(first)}" lengthAdjust="spacingAndGlyphs"><tspan fill="${t.brand}">${first[0]}</tspan>${first.slice(1)}</text>
+    <text class="line" style="animation-delay:0.15s" x="226" y="204" textLength="${width(second)}" lengthAdjust="spacingAndGlyphs">${second.slice(0, -1)}<tspan fill="${t.brand}">${second.slice(-1)}</tspan></text>
   </g>
   <line x1="40" y1="238" x2="${W - 40}" y2="238" stroke="${t.inkMuted}" stroke-opacity="0.35"/>
   <text x="40" y="272" font-family="${FONT}" font-size="16" font-weight="600" fill="${t.inkFg}">Franco Tillard</text>
-  <text x="${W - 40}" y="272" text-anchor="end" font-family="${MONO}" font-size="13" letter-spacing="1.5" fill="${t.inkMuted}">FULLSTACK DEVELOPER</text>
+  <text x="${W - 40}" y="272" text-anchor="end" font-family="${MONO}" font-size="13" letter-spacing="1.5" fill="${t.inkMuted}">${c.role}</text>
 </svg>`;
 };
 
 // Pill buttons for the contact row. Arrow marks an external link.
 const BUTTONS = [
-  { name: "portfolio", label: "PORTFOLIO ↗", primary: true },
-  { name: "linkedin", label: "LINKEDIN ↗" },
-  { name: "email", label: "EMAIL" },
+  { name: "portfolio", primary: true },
+  { name: "linkedin" },
+  { name: "email" },
 ];
 
-const buttonSvg = (t, { label, primary }) => {
+const buttonSvg = (t, label, primary) => {
   const width = Math.round(label.length * 9.2 + 44);
   const H = 44;
   return `
@@ -343,9 +378,34 @@ const buttonSvg = (t, { label, primary }) => {
 </svg>`;
 };
 
+// EN | ES switch, like the portfolio navbar. The active language is filled.
+const languageSvg = (t, active) => {
+  const W = 92;
+  const H = 36;
+  const segment = (code, x) => {
+    const on = code === active;
+    return (
+      (on ? `<rect x="${x}" y="4" width="40" height="28" rx="14" fill="${t.fg}"/>` : "") +
+      `<text x="${x + 20}" y="23" text-anchor="middle" font-family="${MONO}" font-size="12" font-weight="600" ` +
+      `fill="${on ? t.bg : t.muted}">${code.toUpperCase()}</text>`
+    );
+  };
+  return `
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${active === "en" ? "Ver en español" : "View in English"}">
+  <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="${(H - 1) / 2}" fill="${t.card}" stroke="${t.border}"/>
+  ${segment("en", 4)}${segment("es", 48)}
+</svg>`;
+};
+
 for (const [mode, theme] of Object.entries(THEMES)) {
-  write(`hero-${mode}.svg`, heroSvg(theme));
   write(`stack-${mode}.svg`, stackSvg(theme));
-  write(`motto-${mode}.svg`, mottoSvg(theme));
-  for (const button of BUTTONS) write(`buttons/${button.name}-${mode}.svg`, buttonSvg(theme, button));
+  for (const [lang, copy] of Object.entries(COPY)) {
+    const dir = lang === "en" ? "" : `${lang}/`;
+    write(`${dir}hero-${mode}.svg`, heroSvg(theme, copy));
+    write(`${dir}motto-${mode}.svg`, mottoSvg(theme, copy));
+    for (const { name, primary } of BUTTONS) {
+      write(`${dir}buttons/${name}-${mode}.svg`, buttonSvg(theme, copy.buttons[name], primary));
+    }
+    write(`lang/${lang}-${mode}.svg`, languageSvg(theme, lang));
+  }
 }
