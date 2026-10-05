@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="139" height="46" viewBox="0 0 139 46" role="img" aria-label="portfolio">
-  <rect x="1" y="3" width="137" height="42" rx="9" fill="#0E1218" stroke="#363D49"/>
-  <rect x="5" y="4" width="129" height="32" rx="7" fill="#F2A93B"/>
+  <rect x="1" y="3" width="137" height="42" rx="9" fill="#2A3BC4" stroke="#2A3BC4"/>
+  <rect x="5" y="4" width="129" height="32" rx="7" fill="#394EEF"/>
   <text x="69.5" y="25" text-anchor="middle" font-family="ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'JetBrains Mono', Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="600"
-    fill="#1A1206">portfolio ↗</text>
+    fill="#FFFFFF">portfolio ↗</text>
 </svg>
