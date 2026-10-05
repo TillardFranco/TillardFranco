@@ -5,7 +5,7 @@
 </p>
 
 <a href="https://forestgreen-kingfisher-459506.hostingersite.com/">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/terminal-es-dark.svg"><img alt="Franco Tillard, desarrollador fullstack, de la idea a producción. Explorar el portafolio." src="./assets/terminal-es-light.svg" width="100%"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/hero-es-dark.svg"><img alt="Franco Tillard, desarrollador FullStack y estudiante de último año de Ingeniería en Software. Abre el portafolio." src="./assets/hero-es-light.svg" width="100%"></picture>
 </a>
 
 <p>

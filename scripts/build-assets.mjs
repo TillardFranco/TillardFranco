@@ -73,20 +73,6 @@ const write = (name, svg) => {
 const COPY = {
   en: {
     title: "Franco Tillard, FullStack Developer",
-    hero: {
-      name: "Franco Tillard",
-      tagline: "a fullstack developer, from idea to production",
-      cta: "Explore ↗",
-    },
-    file: "README.md",
-    tree: [
-      { name: "franco-tillard/", dir: true, open: true, depth: 0 },
-      { name: "about/", dir: true, depth: 1 },
-      { name: "stack/", dir: true, depth: 1 },
-      { name: "projects/", dir: true, depth: 1 },
-      { name: "README.md", depth: 1 },
-      { name: "README.es.md", depth: 1 },
-    ],
     keys: { portfolio: "portfolio ↗", linkedin: "linkedin ↗", email: "email" },
     bento: {
       alt: "About Franco",
@@ -106,20 +92,6 @@ const COPY = {
   },
   es: {
     title: "Franco Tillard, Desarrollador FullStack",
-    hero: {
-      name: "Franco Tillard",
-      tagline: "desarrollador fullstack, de la idea a producción",
-      cta: "Explorar ↗",
-    },
-    file: "README.es.md",
-    tree: [
-      { name: "franco-tillard/", dir: true, open: true, depth: 0 },
-      { name: "sobre-mi/", dir: true, depth: 1 },
-      { name: "stack/", dir: true, depth: 1 },
-      { name: "proyectos/", dir: true, depth: 1 },
-      { name: "README.md", depth: 1 },
-      { name: "README.es.md", depth: 1 },
-    ],
     keys: { portfolio: "portafolio ↗", linkedin: "linkedin ↗", email: "email" },
     bento: {
       alt: "Sobre Franco",
@@ -139,178 +111,239 @@ const COPY = {
   },
 };
 
-// Scramble alphabet for the name reveal and glitch, as on digitalmeadow.studio.
-const NOISE = "!@#$%&*/\\|<>?";
+// Portfolio hero: the same canvas as the portfolio site (selection frame,
+// pixel surname, collaborator cursor), in its own light and dark tokens.
+const HERO_THEMES = {
+  light: {
+    bg: "#F3F3F1",
+    card: "#FCFCFC",
+    fg: "#1B2231",
+    muted: "#575D6A",
+    border: "#D5D8DD",
+    grid: "rgba(27,34,49,0.07)",
+    brand: "#394EEF",
+    brandFg: "#FFFFFF",
+    ink: "#1B2231",
+    inkFg: "#F3F3F1",
+    inkMuted: "#A7ADBA",
+    inkLine: "rgba(243,243,241,0.08)",
+    success: "#2EA06B",
+  },
+  dark: {
+    bg: "#0F1115",
+    card: "#171A21",
+    fg: "#E8E9EC",
+    muted: "#9BA0AB",
+    border: "#282C33",
+    grid: "rgba(232,233,236,0.06)",
+    brand: "#7484FB",
+    brandFg: "#131A2B",
+    ink: "#161A22",
+    inkFg: "#E8E9EC",
+    inkMuted: "#9BA0AB",
+    inkLine: "rgba(232,233,236,0.07)",
+    success: "#3DBA80",
+  },
+};
 
-const scrambled = (text, keep, random) =>
-  [...text].map((ch, i) => (ch === " " || i < keep ? ch : NOISE[Math.floor(random() * NOISE.length)])).join("");
+const HERO_COPY = {
+  en: {
+    title: "Franco Tillard, FullStack Developer",
+    available: "Available for work",
+    bio: [
+      "FullStack developer and final-year",
+      "Software Engineering student. I build",
+      "web products with React, Java and",
+      "Spring Boot, from idea to production.",
+    ],
+    selection: "Text",
+    cta: "VIEW PORTFOLIO ↗",
+    pixelMode: "Pixel mode",
+  },
+  es: {
+    title: "Franco Tillard, Desarrollador FullStack",
+    available: "Disponible para trabajar",
+    bio: [
+      "Desarrollador FullStack y estudiante",
+      "de último año de Ingeniería en Software.",
+      "Construyo productos web con React, Java",
+      "y Spring Boot, de la idea a producción.",
+    ],
+    selection: "Texto",
+    cta: "VER PORTAFOLIO ↗",
+    pixelMode: "Modo píxel",
+  },
+};
 
-// Swaps a few characters, for the short periodic glitch.
-const glitched = (text, random) =>
-  [...text].map((ch) => (ch !== " " && random() < 0.18 ? NOISE[Math.floor(random() * NOISE.length)] : ch)).join("");
+const gridLines = (width, height, color, pad = 40, cols = 6) =>
+  Array.from({ length: cols + 1 }, (_, i) => {
+    const x = (pad + (i * (width - pad * 2)) / cols).toFixed(1);
+    return `<line x1="${x}" y1="0" x2="${x}" y2="${height}" stroke="${color}"/>`;
+  }).join("");
 
-// Landing in the style of digitalmeadow.studio: a Neovim frame around an ASCII
-// meadow, with the name decoding from noise in the middle.
-const heroSvg = (t, { title, hero, tree, file }) => {
-  const W = 1000;
-  const BAR = 40;
-  const SIDEBAR = 196;
-  const GUTTER = 44;
-  const STATUS = 30;
-  const X0 = SIDEBAR + GUTTER + 14;
-  const COLS = 80;
-  const ROWS = 21;
-  const ROW = 22;
-  const TOP = BAR + 28; // baseline of the first row
-  const NAME_ROW = 9;
-  const random = seededRandom(11);
-  const centerX = X0 + (COLS * CHAR) / 2;
+// 5x7 bitmap glyphs for the pixel surname ("I" is 3 wide).
+const GLYPHS = {
+  T: ["#####", "..#..", "..#..", "..#..", "..#..", "..#..", "..#.."],
+  I: ["###", ".#.", ".#.", ".#.", ".#.", ".#.", "###"],
+  L: ["#....", "#....", "#....", "#....", "#....", "#....", "#####"],
+  A: [".###.", "#...#", "#...#", "#####", "#...#", "#...#", "#...#"],
+  R: ["####.", "#...#", "#...#", "####.", "#.#..", "#..#.", "#...#"],
+  D: ["####.", "#...#", "#...#", "#...#", "#...#", "#...#", "####."],
+};
 
-  // Cells kept empty so the text reads over the art.
-  const isClear = (c, r) => r >= NAME_ROW - 1 && r <= NAME_ROW + 5 && c >= 17 && c <= 62;
-
-  const columns = [];
-  for (let c = 0; c < COLS; c++) {
-    const cells = new Map();
-    for (let r = 0; r < ROWS; r++) {
-      if (isClear(c, r)) continue;
-      // Denser toward a mound centered low in the window.
-      const dx = (c - COLS / 2) / (COLS / 2);
-      const dy = (r - 17) / 7;
-      const mound = Math.exp(-(dx * dx * 1.5 + dy * dy * 1.2));
-      if (random() > 0.95 * mound + 0.015) continue;
-      const level = mound > 0.6 ? 3 : mound > 0.32 ? 2 : 1;
-      cells.set(r, { ch: ["|", "|", "/", "\\"][Math.floor(random() * 4)], cls: random() < 0.05 ? "b" : `a${level}` });
-    }
-    // Loose vertical strands in the upper part, as on the reference.
-    if (random() < 0.14) {
-      const start = Math.floor(random() * 6);
-      const length = 2 + Math.floor(random() * 3);
-      for (let r = start; r < start + length; r++) {
-        if (!isClear(c, r) && !cells.has(r)) cells.set(r, { ch: "|", cls: "a1" });
-      }
-    }
-    if (!cells.size) continue;
-    const glyphs = [...cells.entries()]
-      .map(([r, cell]) => `<text x="${X0 + c * CHAR}" y="${TOP + r * ROW}" class="${cell.cls}">${escape(cell.ch)}</text>`)
-      .join("");
-    columns.push(`<g class="blade" style="animation-delay:${(-c * 0.07).toFixed(2)}s">${glyphs}</g>`);
+const pixelWord = (word, x0, y0, cell, t) => {
+  const random = seededRandom(20260211);
+  const pixels = [];
+  let col = 0;
+  for (const letter of word) {
+    const glyph = GLYPHS[letter];
+    glyph.forEach((row, r) => {
+      [...row].forEach((on, c) => {
+        if (on === "#") pixels.push({ c: col + c, r });
+      });
+    });
+    col += glyph[0].length + 1;
   }
+  const totalCols = col - 1;
 
-  // Centered text: name and tagline decode from noise, then glitch now and then.
-  const nameY = TOP + NAME_ROW * ROW;
-  const tagY = nameY + 30;
-  const ctaY = tagY + 34;
-  const nameText = (text, extra = "") =>
-    `<text x="${centerX}" y="${nameY}" text-anchor="middle" font-family="${MONO}" font-size="28" font-weight="700" fill="${t.fg}" ` +
-    `textLength="${text.length * 17}" lengthAdjust="spacing"${extra}>${escape(text)}</text>`;
-  const tagText = (text, extra = "") =>
-    `<text x="${centerX}" y="${tagY}" text-anchor="middle" font-family="${MONO}" font-size="14" fill="${t.muted}" ` +
-    `textLength="${text.length * 8.4}" lengthAdjust="spacing"${extra}>${escape(text)}</text>`;
-
-  const decode = (text, render, start) => {
-    const steps = 8;
-    const frames = Array.from({ length: steps }, (_, k) =>
-      render(
-        scrambled(text, Math.round((k / steps) * text.length), random),
-        ` class="scramble" style="animation-delay:${(start + k * 0.07).toFixed(2)}s"`
-      )
-    ).join("");
-    return { frames, revealAt: start + steps * 0.07 };
-  };
-
-  const name = decode(hero.name, nameText, 0.7);
-  const tagline = decode(hero.tagline, tagText, 1.0);
-
-  const ctaW = Math.round(hero.cta.length * 8.4 + 48);
-  const cta =
-    `<g class="show" style="animation-delay:${(tagline.revealAt + 0.15).toFixed(2)}s">` +
-    `<rect x="${centerX - ctaW / 2}" y="${ctaY - 19}" width="${ctaW}" height="28" rx="6" fill="none" stroke="${t.brand}"/>` +
-    `<text x="${centerX}" y="${ctaY}" text-anchor="middle" font-family="${MONO}" font-size="14" font-weight="600" fill="${t.brand}">${escape(hero.cta)}</text></g>`;
-
-  // Line numbers for the art rows, then tildes past the end of the buffer.
-  const gutterX = SIDEBAR + GUTTER - 6;
-  const numbers = Array.from({ length: ROWS }, (_, r) =>
-    `<text x="${gutterX}" y="${TOP + r * ROW}" text-anchor="end" class="n">${r + 1}</text>`
-  ).join("");
-  const tildes = Array.from({ length: 3 }, (_, i) =>
-    `<text x="${gutterX}" y="${TOP + (ROWS + i) * ROW}" text-anchor="end" class="tilde">~</text>`
-  ).join("");
-
-  const statusY = TOP + (ROWS + 2) * ROW + 14;
-  const H = statusY + STATUS;
-
-  // File tree in the sidebar; the open file is highlighted.
-  const treeRows = tree
-    .map((item, i) => {
-      const ty = BAR + 30 + i * 24;
-      const active = item.name === file;
-      const label = `${" ".repeat(item.depth * 2)}${item.dir ? (item.open ? "▾ " : "▸ ") : "  "}${item.name}`;
+  return pixels
+    .map(({ c, r }) => {
+      const x = x0 + c * cell;
+      const y = y0 + r * cell;
+      const fade = 1 - (c / totalCols) * 0.5;
+      const tone = [1, 0.82, 0.62, 0.45][Math.floor(random() * 4)];
+      const dx = Math.round((random() - 0.5) * 420);
+      const dy = Math.round((random() - 0.5) * 260);
+      const assemble = (0.35 + random() * 0.6).toFixed(2);
+      // The wave sweeps left to right, so its delay follows the column.
+      const wave = (1.6 + c * 0.045).toFixed(2);
       return (
-        (active ? `<rect x="0.5" y="${ty - 16}" width="${SIDEBAR - 1}" height="23" fill="${t.brand}"/>` : "") +
-        `<text x="16" y="${ty}" font-family="${MONO}" font-size="13" font-weight="${item.depth === 0 ? 700 : 400}" ` +
-        `fill="${active ? t.brandFg : item.dir ? t.fg : t.muted}">${escape(label)}</text>`
+        `<g class="px" style="--dx:${dx}px;--dy:${dy}px;animation-delay:${assemble}s">` +
+        `<rect class="wave" style="animation-delay:${wave}s" x="${x}" y="${y}" width="${cell - 2}" height="${cell - 2}" ` +
+        `fill="${t.brand}" fill-opacity="${Math.max(0.3, tone * fade).toFixed(2)}"/></g>`
       );
     })
     .join("");
+};
 
-  const dots = [0, 1, 2]
-    .map((i) => `<circle cx="${24 + i * 20}" cy="${BAR / 2}" r="6" fill="${t.border}"/>`)
+const cursorShape = (fill, stroke) =>
+  `<path d="M0 0 L0 19 L5 14.5 L8.6 22 L11.6 20.6 L8.1 13.4 L14.6 13.4 Z" fill="${fill}" stroke="${stroke}" stroke-width="1.4" stroke-linejoin="round"/>`;
+
+const portfolioHeroSvg = (t, c) => {
+  const W = 1200;
+  const H = 440;
+  // Both words share one frame size so the frame can glide between them.
+  const cell = 14;
+  const wordW = 39 * cell - 2; // TILLARD is 39 columns wide
+  const wordH = 7 * cell - 2;
+  const padX = 16;
+  const padY = 14;
+  const frameW = wordW + padX * 2;
+  const frameH = wordH + padY * 2;
+  const first = { x: 40, y: 108 };
+  const last = { x: 404, y: 248 };
+  const dx = last.x - first.x;
+  const dy = last.y - first.y;
+
+  const handles = [
+    [0, 0],
+    [frameW, 0],
+    [0, frameH],
+    [frameW, frameH],
+  ]
+    .map(([hx, hy]) => `<rect x="${hx - 4}" y="${hy - 4}" width="8" height="8" fill="${t.bg}" stroke="${t.brand}"/>`)
+    .join("");
+
+  const bio = c.bio
+    .map((line, i) => `<tspan x="720" dy="${i === 0 ? 0 : 30}">${line}</tspan>`)
     .join("");
 
   return `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="title">
-  <title id="title">${escape(title)}</title>
+  <title id="title">${c.title}</title>
   <style>
-    text { white-space: pre; }
-    .field text { font-family: ${MONO}; font-size: 15px; fill: ${t.muted}; }
-    .field .a1 { fill-opacity: 0.28; }
-    .field .a2 { fill-opacity: 0.45; }
-    .field .a3 { fill-opacity: 0.65; }
-    .field .b { fill: ${t.brand}; fill-opacity: 0.85; }
-    .n { font-family: ${MONO}; font-size: 12px; fill: ${t.muted}; fill-opacity: 0.7; }
-    .tilde { font-family: ${MONO}; font-size: 13px; fill: ${t.brand}; fill-opacity: 0.55; }
-    .field { animation: show 1.4s ease-out 0.1s both; }
-    .blade { animation: sway 5s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
-    .show { animation: show 0.18s ease-out both; }
-    .scramble { opacity: 0; animation: flash 0.07s linear; }
-    .glitch { opacity: 0; animation: glitch 7s linear infinite; }
-    .glitch-hide { animation: glitch-hide 7s linear infinite; }
-    @keyframes show { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes sway { from { transform: skewX(-3deg); } to { transform: skewX(3deg); } }
-    @keyframes flash { from, to { opacity: 1; } }
-    @keyframes glitch { 0%, 95.9% { opacity: 0; } 96%, 98% { opacity: 1; } 98.1%, 100% { opacity: 0; } }
-    @keyframes glitch-hide { 0%, 95.9% { opacity: 1; } 96%, 98% { opacity: 0; } 98.1%, 100% { opacity: 1; } }
+    .px { animation: assemble 1.4s ${EASE} both; }
+    .wave { animation: wave 7s ease-in-out infinite; transform-box: fill-box; }
+    .frame { animation: frame 8s ${EASE} infinite; }
+    .cursor { animation: cursor 16s ease-in-out infinite; }
+    .ring { animation: ring 2.4s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+    .fade { animation: fade 0.9s ${EASE} both; }
+    @keyframes assemble {
+      from { transform: translate(var(--dx), var(--dy)); opacity: 0; }
+      to { transform: none; opacity: 1; }
+    }
+    @keyframes wave {
+      0%, 8%, 100% { transform: none; }
+      4% { transform: translateY(-9px); }
+    }
+    @keyframes frame {
+      0%, 42% { transform: none; }
+      50%, 92% { transform: translate(${dx}px, ${dy}px); }
+      100% { transform: none; }
+    }
+    @keyframes cursor {
+      0%, 6% { transform: translate(250px, 70px); }
+      22%, 28% { transform: translate(640px, 196px); }
+      44%, 50% { transform: translate(1010px, 300px); }
+      66%, 72% { transform: translate(560px, 392px); }
+      88%, 94% { transform: translate(150px, 250px); }
+      100% { transform: translate(250px, 70px); }
+    }
+    @keyframes ring {
+      from { transform: scale(1); opacity: 0.55; }
+      to { transform: scale(2.8); opacity: 0; }
+    }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
     @media (prefers-reduced-motion: reduce) {
-      .field, .blade, .show, .scramble, .glitch, .glitch-hide { animation: none; }
+      .px, .wave, .frame, .cursor, .ring, .fade { animation: none; }
+      .cursor { transform: translate(640px, 196px); }
     }
   </style>
-  <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="12" fill="${t.window}" stroke="${t.border}"/>
-  <rect x="0.5" y="${BAR}" width="${SIDEBAR}" height="${statusY - BAR}" fill="${t.bar}"/>
-  <line x1="${SIDEBAR + 0.5}" y1="${BAR}" x2="${SIDEBAR + 0.5}" y2="${statusY}" stroke="${t.border}"/>
-  ${treeRows}
-  <path d="M0.5 12.5 A12 12 0 0 1 12.5 0.5 H${W - 12.5} A12 12 0 0 1 ${W - 0.5} 12.5 V${BAR} H0.5 Z" fill="${t.bar}"/>
-  <line x1="0.5" y1="${BAR}" x2="${W - 0.5}" y2="${BAR}" stroke="${t.border}"/>
-  ${dots}
-  <text x="${W / 2}" y="${BAR / 2 + 5}" text-anchor="middle" font-family="${MONO}" font-size="13" fill="${t.muted}">nvim ~/franco-tillard/${escape(file)}</text>
-  ${numbers}
-  ${tildes}
-  <g class="field">
-  ${columns.join("\n  ")}
+
+  <rect width="${W}" height="${H}" fill="${t.bg}"/>
+  ${gridLines(W, H, t.grid)}
+  <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" fill="none" stroke="${t.border}"/>
+
+  <g class="fade">
+    <rect x="40" y="36" width="${Math.round(c.available.length * 7.2 + 48)}" height="32" rx="16" fill="${t.card}" stroke="${t.border}"/>
+    <circle class="ring" cx="60" cy="52" r="4" fill="${t.success}"/>
+    <circle cx="60" cy="52" r="4" fill="${t.success}"/>
+    <text x="74" y="57" font-family="${SANS}" font-size="13" font-weight="600" fill="${t.fg}">${c.available}</text>
   </g>
-  ${name.frames}
-  <g class="glitch-hide" style="animation-delay:6s"><g class="show" style="animation-delay:${name.revealAt.toFixed(2)}s">${nameText(hero.name)}</g></g>
-  ${nameText(glitched(hero.name, random), ` class="glitch" style="animation-delay:6s"`)}
-  ${tagline.frames}
-  <g class="glitch-hide" style="animation-delay:9.5s"><g class="show" style="animation-delay:${tagline.revealAt.toFixed(2)}s">${tagText(hero.tagline)}</g></g>
-  ${tagText(glitched(hero.tagline, random), ` class="glitch" style="animation-delay:9.5s"`)}
-  ${cta}
-  <path d="M0.5 ${statusY} H${W - 0.5} V${H - 12.5} A12 12 0 0 1 ${W - 12.5} ${H - 0.5} H12.5 A12 12 0 0 1 0.5 ${H - 12.5} Z" fill="${t.bar}"/>
-  <line x1="0.5" y1="${statusY}" x2="${W - 0.5}" y2="${statusY}" stroke="${t.border}"/>
-  <rect x="12" y="${statusY + 6}" width="72" height="${STATUS - 12}" rx="3" fill="${t.brand}"/>
-  <text x="48" y="${statusY + 19}" text-anchor="middle" font-family="${MONO}" font-size="11" font-weight="700" fill="${t.brandFg}">NORMAL</text>
-  <text x="98" y="${statusY + 19}" font-family="${MONO}" font-size="12" fill="${t.fg}">${escape(file)}</text>
-  <text x="${W - 16}" y="${statusY + 19}" text-anchor="end" font-family="${MONO}" font-size="12" fill="${t.muted}">utf-8   ln 1, col 1</text>
+
+  <text class="fade" x="${first.x + padX}" y="${first.y + padY + wordH}" font-family="${SANS}" font-size="134" font-weight="700"
+    textLength="${wordW}" lengthAdjust="spacingAndGlyphs" fill="${t.fg}">FRANCO</text>
+
+  <text class="fade" style="animation-delay:0.2s" y="134" font-family="${SANS}" font-size="20" fill="${t.muted}">${bio}</text>
+
+  ${pixelWord("TILLARD", last.x + padX, last.y + padY, cell, t)}
+
+  <g class="frame">
+    <g transform="translate(${first.x} ${first.y})">
+      <rect width="${frameW}" height="${frameH}" fill="none" stroke="${t.brand}" stroke-width="1.5"/>
+      ${handles}
+      <rect x="0" y="-22" width="${c.selection.length * 6 + 10}" height="17" rx="3" fill="${t.brand}"/>
+      <text x="${(c.selection.length * 6 + 10) / 2}" y="-10" text-anchor="middle" font-family="${SANS}" font-size="10" font-weight="600" fill="${t.brandFg}">${c.selection}</text>
+    </g>
+  </g>
+
+  <g class="fade" style="animation-delay:0.35s">
+    <rect x="${last.x}" y="380" width="196" height="42" rx="21" fill="${t.fg}"/>
+    <text x="${last.x + 98}" y="406" text-anchor="middle" font-family="${SANS}" font-size="13" font-weight="600"
+      letter-spacing="1.2" fill="${t.bg}">${c.cta}</text>
+    <rect x="${last.x + 228}" y="390" width="40" height="22" rx="11" fill="${t.brand}"/>
+    <circle cx="${last.x + 257}" cy="401" r="8" fill="${t.bg}"/>
+    <text x="${last.x + 280}" y="406" font-family="${SANS}" font-size="14" fill="${t.muted}">${c.pixelMode}</text>
+  </g>
+
+  <g class="cursor" transform="translate(640 196)">
+    ${cursorShape(t.fg, t.bg)}
+    <rect x="14" y="20" width="56" height="20" rx="10" fill="${t.fg}"/>
+    <text x="42" y="34" text-anchor="middle" font-family="${SANS}" font-size="11" font-weight="600" fill="${t.bg}">Franco</text>
+  </g>
 </svg>`;
 };
 
@@ -450,7 +483,7 @@ const languageKeys = (t, active) => {
 for (const [mode, theme] of Object.entries(THEMES)) {
   write(`meadow-${mode}.svg`, meadowSvg(theme));
   for (const [lang, copy] of Object.entries(COPY)) {
-    write(`terminal-${lang}-${mode}.svg`, heroSvg(theme, copy));
+    write(`hero-${lang}-${mode}.svg`, portfolioHeroSvg(HERO_THEMES[mode], HERO_COPY[lang]));
     write(`about-${lang}-${mode}.svg`, bentoSvg(theme, copy.bento));
     write(`lang/${lang}-${mode}.svg`, languageKeys(theme, lang));
     for (const [name, label] of Object.entries(copy.keys)) {
