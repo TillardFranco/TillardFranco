@@ -5,7 +5,7 @@
 </p>
 
 <a href="https://francotillard.vercel.app/">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/hero-en-dark.svg"><img alt="Franco Tillard, FullStack developer and final-year Software Engineering student. Opens the portfolio." src="./assets/hero-en-light.svg" width="100%"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/hero-en-dark.svg"><img alt="Franco Tillard, backend and applied AI developer. Java, Spring Boot and Node.js, two systems of my own in production, plus Claude agents and an MCP server on a real ERP codebase. Opens the portfolio." src="./assets/hero-en-light.svg" width="100%"></picture>
 </a>
 
 <p>
@@ -16,42 +16,70 @@
 
 ## ~/about
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/about-en-dark.svg"><img alt="Now: Analyst Developer at MetroTec since Feb 2026, turning requirements from about 30 client companies into working software. Approach: analyze, build, validate; I validate every spec against the real database before writing code. Studio: co-founder of Dev.Bit, websites and systems for small businesses. Studies: Software Engineering, final year, Universidad Siglo 21." src="./assets/about-en-light.svg" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="./assets/about-en-dark.svg"><img alt="Now: Software Developer at MetroTec since Feb 2026. Led the team's applied AI initiative, with Claude agents and an MCP server, and shipped 40+ custom developments for 15+ industrial clients. Approach: analyze, build, validate; I validate every spec against the real database before writing code. Studio: co-founder of Dev.Bit, websites and systems for small businesses. Studies: Software Engineering, final year, Universidad Siglo 21." src="./assets/about-en-light.svg" width="100%"></picture>
 
 ## ~/stack
 
 ```text
 stack/
-├── frontend/   react  typescript  javascript  vite  tailwind  html  css
-├── backend/    java  spring-boot  spring-security  jwt  node  rest-apis
-├── data/       mysql  postgresql
-└── tools/      maven  git  github  jira  notion
+├── backend/    java  spring-boot  spring-security  jwt  node  typescript  express  rest-apis
+├── ai/         claude  mcp  fastmcp  agent-skills  python
+├── data/       postgresql  sql-server  mysql  prisma  jpa
+├── devops/     docker  github-actions  render  vercel  sentry  git
+├── frontend/   react  vite  tailwind  tanstack-query
+└── erp/        totvs-protheus  advpl  tlpp
 ```
 
 ## ~/projects
 
 <table>
   <tr>
-    <td colspan="2" valign="top">
-      <a href="https://www.devbitsoftware.com/"><img src="./assets/projects/devbit-site.png" alt="Dev.Bit website" width="100%"></a>
-      <h3><code>devbit/</code></h3>
-      Website for the software studio I co-founded, with services, client portfolio and contact form.<br><br>
-      <code>react</code> <code>react-router</code> <code>tailwind</code> &nbsp; <a href="https://www.devbitsoftware.com/">→ live site</a>
+    <td width="50%" valign="top">
+      <h3><code>farmaser/</code></h3>
+      <code>● in production</code> <code>private repo</code><br><br>
+      Pharmacy management system and online store. Spring Boot 3 backend with ~140 REST endpoints across 29 controllers, JWT with 5 roles, and Mercado Pago payments whose webhooks are verified with HMAC-SHA256.<br><br>
+      CI/CD with GitHub Actions: frontend on Hostinger, Dockerized backend on Render, PostgreSQL on Neon. 4 scheduled jobs reconcile payments and handle alerts, reservations and carts.<br><br>
+      <code>java</code> <code>spring-boot</code> <code>spring-security</code> <code>jpa</code> <code>postgresql</code> <code>react</code> <code>docker</code> <code>github-actions</code><br><br>
+      <a href="https://farmaciafarmaser.com.ar">→ live site</a>
+    </td>
+    <td width="50%" valign="top">
+      <h3><code>ordix/</code></h3>
+      <code>● in production</code> <code>private repo</code><br><br>
+      Multi-tenant SaaS for digital store catalogs. REST API with 23 endpoints in Node/Express and TypeScript, with per-store isolation on every write.<br><br>
+      JWT and bcrypt, helmet, CORS allowlist, rate limiting and Sentry monitoring. The React 19 frontend builds each store's full palette from one brand color at runtime, with contrast computed from luminance.<br><br>
+      <code>typescript</code> <code>node</code> <code>express</code> <code>prisma</code> <code>postgresql</code> <code>react</code>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <p align="center"><img src="./assets/projects/farmaser.jpg" alt="Farmaser logo" height="150"></p>
-      <h3><code>farmaser/</code></h3>
-      Pharmacy e-commerce and management system: stock, sales, customers and Mercado Pago payments. In development.<br><br>
-      <code>java</code> <code>spring-boot</code> <code>spring-security</code> <code>jwt</code> <code>mysql</code> <code>react</code>
+      <h3><code>mcp-code-search/</code></h3>
+      <code>● internal tool</code> <code>MetroTec</code><br><br>
+      MCP server in Python that exposes a large ERP codebase (10,500+ files, ~2.5 GB) as tools for AI assistants: search, read snippets, explain a routine and map the impact of a change, without handing over whole files. Sub-second search with ripgrep.<br><br>
+      Bearer auth through ASGI middleware, per-operation JSONL audit log, path traversal defense and a daily budget per user.<br><br>
+      <code>python</code> <code>fastmcp</code> <code>starlette</code> <code>uvicorn</code> <code>ripgrep</code>
     </td>
+    <td width="50%" valign="top">
+      <h3><code>ai-dev-pipeline/</code></h3>
+      <code>○ experimental</code> <code>private repo</code><br><br>
+      7 Claude Skills (PM, orchestrator, backend, frontend, testing, GitHub and deploy) that turn a written requirement into a task plan and dispatch it stage by stage until a pull request is open.<br><br>
+      Agents coordinate through JSON contracts validated with JSON Schema and one durable state file. 12 deterministic Node.js scripts run the task graph in waves, detect cycles with DFS and retry by feeding the error back, so deterministic logic stays out of the LLM.<br><br>
+      <code>node</code> <code>claude-agent-skills</code> <code>json-schema</code> <code>git-worktree</code> <code>gh-cli</code>
+    </td>
+  </tr>
+  <tr>
     <td width="50%" valign="top">
       <a href="https://github.com/TillardFranco/Sistema-Gestion-Backend-ERP"><img src="./assets/projects/erp-backend.png" alt="ERP backend API documentation" width="100%"></a>
       <h3><code>erp-backend/</code></h3>
       Generic, modular ERP backend built with Spring Boot 3 and Java 17. Inventory, sales and management for retail businesses.<br><br>
       <code>java</code> <code>spring-boot</code> <code>spring-data-jpa</code> <code>mapstruct</code> <code>mysql</code><br><br>
       <a href="https://github.com/TillardFranco/Sistema-Gestion-Backend-ERP">→ source code</a>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://www.devbitsoftware.com/"><img src="./assets/projects/devbit-site.png" alt="Dev.Bit website" width="100%"></a>
+      <h3><code>devbit/</code></h3>
+      Website for the software studio I co-founded, with services, client portfolio and contact form.<br><br>
+      <code>react</code> <code>react-router</code> <code>tailwind</code><br><br>
+      <a href="https://www.devbitsoftware.com/">→ live site</a>
     </td>
   </tr>
 </table>

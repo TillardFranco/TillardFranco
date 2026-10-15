@@ -72,14 +72,17 @@ const write = (name, svg) => {
 
 const COPY = {
   en: {
-    title: "Franco Tillard, FullStack Developer",
+    title: "Franco Tillard, Backend and Applied AI Developer",
     keys: { portfolio: "portfolio ↗", linkedin: "linkedin ↗", email: "email" },
     bento: {
       alt: "About Franco",
       now: {
         label: "NOW",
-        title: "Analyst Developer at MetroTec",
-        body: ["I turn requirements from about 30 client companies", "into working software. Since Feb 2026."],
+        title: "Software Developer at MetroTec",
+        body: [
+          "Led the team's applied AI initiative: Claude agents and an MCP server.",
+          "40+ custom developments for 15+ industrial clients. Since Feb 2026.",
+        ],
       },
       approach: {
         label: "APPROACH",
@@ -91,14 +94,17 @@ const COPY = {
     },
   },
   es: {
-    title: "Franco Tillard, Desarrollador FullStack",
+    title: "Franco Tillard, Desarrollador Backend e IA aplicada",
     keys: { portfolio: "portafolio ↗", linkedin: "linkedin ↗", email: "email" },
     bento: {
       alt: "Sobre Franco",
       now: {
         label: "AHORA",
-        title: "Desarrollador Analista en MetroTec",
-        body: ["Convierto requerimientos de unas 30 empresas cliente", "en software funcionando. Desde feb. 2026."],
+        title: "Desarrollador de Software en MetroTec",
+        body: [
+          "Lideré la iniciativa de IA aplicada: agentes con Claude y un servidor MCP.",
+          "+40 desarrollos a medida para +15 clientes industriales. Desde feb. 2026.",
+        ],
       },
       approach: {
         label: "ENFOQUE",
@@ -148,26 +154,26 @@ const HERO_THEMES = {
 
 const HERO_COPY = {
   en: {
-    title: "Franco Tillard, FullStack Developer",
+    title: "Franco Tillard, Backend and Applied AI Developer",
     available: "Available for work",
     bio: [
-      "FullStack developer and final-year",
-      "Software Engineering student. I build",
-      "web products with React, Java and",
-      "Spring Boot, from idea to production.",
+      "Backend developer: Java, Spring Boot",
+      "and Node.js. Two systems of my own in",
+      "production, plus Claude agents and an",
+      "MCP server on a real ERP codebase.",
     ],
     selection: "Text",
     cta: "VIEW PORTFOLIO ↗",
     pixelMode: "Pixel mode",
   },
   es: {
-    title: "Franco Tillard, Desarrollador FullStack",
+    title: "Franco Tillard, Desarrollador Backend e IA aplicada",
     available: "Disponible para trabajar",
     bio: [
-      "Desarrollador FullStack y estudiante",
-      "de último año de Ingeniería en Software.",
-      "Construyo productos web con React, Java",
-      "y Spring Boot, de la idea a producción.",
+      "Desarrollador backend: Java, Spring Boot",
+      "y Node.js. Dos sistemas propios en",
+      "producción, más agentes con Claude y un",
+      "servidor MCP sobre el código de un ERP.",
     ],
     selection: "Texto",
     cta: "VER PORTAFOLIO ↗",
