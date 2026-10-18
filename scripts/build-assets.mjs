@@ -158,7 +158,7 @@ const HERO_COPY = {
     available: "Available for work",
     bio: [
       "Backend developer: Java, Spring Boot",
-      "and Node.js. Two systems of my own in",
+      "and Node.js. A pharmacy platform in",
       "production, plus Claude agents and an",
       "MCP server on a real ERP codebase.",
     ],
@@ -171,9 +171,9 @@ const HERO_COPY = {
     available: "Disponible para trabajar",
     bio: [
       "Desarrollador backend: Java, Spring Boot",
-      "y Node.js. Dos sistemas propios en",
-      "producción, más agentes con Claude y un",
-      "servidor MCP sobre el código de un ERP.",
+      "y Node.js. Una plataforma de farmacia",
+      "en producción, más agentes con Claude y",
+      "un servidor MCP sobre un ERP real.",
     ],
     selection: "Texto",
     cta: "VER PORTAFOLIO ↗",

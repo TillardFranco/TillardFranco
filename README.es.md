@@ -5,7 +5,7 @@
 </p>
 
 <a href="https://francotillard.vercel.app/">
-  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/hero-es-dark.svg"><img alt="Franco Tillard, desarrollador backend e IA aplicada. Java, Spring Boot y Node.js, dos sistemas propios en producción, más agentes con Claude y un servidor MCP sobre el código de un ERP. Abre el portafolio." src="./assets/hero-es-light.svg" width="100%"></picture>
+  <picture><source media="(prefers-color-scheme: dark)" srcset="./assets/hero-es-dark.svg"><img alt="Franco Tillard, desarrollador backend e IA aplicada. Java, Spring Boot y Node.js, una plataforma de farmacia en producción, más agentes con Claude y un servidor MCP sobre un ERP real. Abre el portafolio." src="./assets/hero-es-light.svg" width="100%"></picture>
 </a>
 
 <p>
@@ -44,7 +44,7 @@ stack/
     </td>
     <td width="50%" valign="top">
       <h3><code>ordix/</code></h3>
-      <code>● en producción</code> <code>repo privado</code><br><br>
+      <code>○ en desarrollo</code> <code>repo privado</code><br><br>
       SaaS multi-tenant de catálogos digitales para comercios. API REST de 23 endpoints en Node/Express y TypeScript, con aislamiento por tienda en cada escritura.<br><br>
       JWT y bcrypt, helmet, CORS con allowlist, rate limiting y monitoreo con Sentry. El frontend en React 19 genera la paleta completa de cada tienda a partir de un solo color, con el contraste calculado por luminancia.<br><br>
       <code>typescript</code> <code>node</code> <code>express</code> <code>prisma</code> <code>postgresql</code> <code>react</code>
